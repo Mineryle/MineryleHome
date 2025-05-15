@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         setCorsHeaders(resp);
+        
         resp.setContentType("application/json");
+
 
         BufferedReader reader = req.getReader();
         Map<String, String> credentials = gson.fromJson(reader, Map.class);
@@ -29,6 +32,8 @@ public class LoginServlet extends HttpServlet {
         String password = credentials.get("password");
 
         if ("admin".equals(username) && "password123".equals(password)) {
+        	HttpSession session = req.getSession();
+            session.setAttribute("username", username);
             String token = JWT.create()
                     .withSubject(username)
                     .withIssuedAt(new Date())
@@ -38,6 +43,10 @@ public class LoginServlet extends HttpServlet {
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("token", token);
             resp.getWriter().write(gson.toJson(responseMap));
+            
+            
+
+            
         } else {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.getWriter().write("{\"error\":\"Invalid credentials\"}");
@@ -50,8 +59,10 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void setCorsHeaders(HttpServletResponse resp) {
-        resp.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    	resp.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+    	resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    	resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    	resp.setHeader("Access-Control-Allow-Credentials", "true");
+
     }
 }
