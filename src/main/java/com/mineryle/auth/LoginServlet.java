@@ -20,6 +20,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    	System.out.println("Heard do-post method on login servlet");
         setCorsHeaders(resp);
         
         resp.setContentType("application/json");
@@ -27,15 +29,19 @@ public class LoginServlet extends HttpServlet {
 
         BufferedReader reader = req.getReader();
         Map<String, String> credentials = gson.fromJson(reader, Map.class);
-
-        String username = credentials.get("username");
+        System.out.println("Credentials at servlet: " + credentials);
+        
+        String email = credentials.get("email");
         String password = credentials.get("password");
+        
+        System.out.println("Email & Pass: " + email + " - " + password);
 
-        if ("admin".equals(username) && "password123".equals(password)) {
+        if ("hughes.brian@company.com".equals(email) && "admin".equals(password)) {
+        	System.out.println("login successful");
         	HttpSession session = req.getSession();
-            session.setAttribute("username", username);
+            session.setAttribute("username", email);
             String token = JWT.create()
-                    .withSubject(username)
+                    .withSubject(email)
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 3600_000))
                     .sign(Algorithm.HMAC256(SECRET_KEY));
@@ -48,6 +54,7 @@ public class LoginServlet extends HttpServlet {
 
             
         } else {
+        	System.out.println("Could not authenticate user...");
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.getWriter().write("{\"error\":\"Invalid credentials\"}");
         }
