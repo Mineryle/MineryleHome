@@ -47,7 +47,9 @@ public class LoginServlet extends HttpServlet {
                     .sign(Algorithm.HMAC256(SECRET_KEY));
 
             Map<String, String> responseMap = new HashMap<>();
-            responseMap.put("token", token);
+            responseMap.put("accessToken", token);
+            responseMap.put("_authenticated", "true");
+            responseMap.put("user", "hughes.brian@company.com");
             resp.getWriter().write(gson.toJson(responseMap));
             
             

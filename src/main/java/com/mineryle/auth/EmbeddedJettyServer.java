@@ -18,6 +18,7 @@ public class EmbeddedJettyServer {
 
         // Register your servlet
         context.addServlet(new ServletHolder(new LoginServlet()), "/mineryle/api/login");
+        context.addServlet(new ServletHolder(new LoginWithTokenServlet()), "/mineryle/api/sign-in-with-token");
 
         server.setHandler(context);
         server.start();

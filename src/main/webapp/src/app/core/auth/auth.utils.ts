@@ -138,9 +138,13 @@ export class AuthUtils {
         if (!token) {
             return null;
         }
+		
+		console.log('Token: ', token);
 
         // Split the token
         const parts = token.split('.');
+		
+		console.log('Parts: ', parts);
 
         if (parts.length !== 3) {
             throw new Error(

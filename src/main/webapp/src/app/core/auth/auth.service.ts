@@ -62,14 +62,19 @@ export class AuthService {
 
         return this._httpClient.post('mineryle/api/login', credentials).pipe(
             switchMap((response: any) => {
+				
+				console.log('Response: ', response);
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
+				console.log('AccessToken: ', this.accessToken);
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
+				console.log('Authenticated: ', this._authenticated)
 
                 // Store the user on the user service
                 this._userService.user = response.user;
+				console.log('User Service: ',  this._userService.user);
 
                 // Return a new observable with the response
                 return of(response);
@@ -83,7 +88,7 @@ export class AuthService {
     signInUsingToken(): Observable<any> {
         // Sign in using the token
         return this._httpClient
-            .post('api/auth/sign-in-with-token', {
+            .post('/mineryle/api/sign-in-with-token', {
                 accessToken: this.accessToken,
             })
             .pipe(
