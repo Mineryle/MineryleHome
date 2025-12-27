@@ -48,6 +48,38 @@ export interface GithubIssuesSeriesEntry {
     data: number[];
 }
 
+export interface TaskDistributionData {
+    overview: TaskDistributionOverview;
+    labels: string[];
+    series: TaskDistributionSeries;
+}
+
+export interface TaskDistributionOverview {
+    'this-week': TaskDistributionTotals;
+    'last-week': TaskDistributionTotals;
+}
+
+export interface TaskDistributionTotals {
+    new: number;
+    completed: number;
+}
+
+export interface TaskDistributionSeries {
+    'this-week': number[];
+    'last-week': number[];
+}
+
+export interface ScheduleData {
+    today: ScheduleItem[];
+    tomorrow: ScheduleItem[];
+}
+
+export interface ScheduleItem {
+    title: string;
+    time?: string;
+    location?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -122,6 +154,18 @@ export class ProjectService {
     getGithubIssues(): Observable<GithubIssuesData> {
         return this._httpClient.get<GithubIssuesData>(
             'api/dashboards/project/github-issues'
+        );
+    }
+
+    getTaskDistribution(): Observable<TaskDistributionData> {
+        return this._httpClient.get<TaskDistributionData>(
+            'api/dashboards/project/task-distribution'
+        );
+    }
+
+    getSchedule(): Observable<ScheduleData> {
+        return this._httpClient.get<ScheduleData>(
+            'api/dashboards/project/schedule'
         );
     }
 }

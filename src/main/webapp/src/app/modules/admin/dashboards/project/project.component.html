@@ -630,10 +630,11 @@
                                             class="text-5xl font-semibold leading-none tracking-tighter"
                                         >
                                             {{
-                                                data.taskDistribution.overview[
+                                                taskDistributionData
+                                                    ?.overview?.[
                                                     taskDistributionWeekSelector
                                                         .value
-                                                ]['new']
+                                                ]?.['new'] ?? '—'
                                             }}
                                         </div>
                                         <div
@@ -649,10 +650,11 @@
                                             class="text-5xl font-semibold leading-none tracking-tighter"
                                         >
                                             {{
-                                                data.taskDistribution.overview[
+                                                taskDistributionData
+                                                    ?.overview?.[
                                                     taskDistributionWeekSelector
                                                         .value
-                                                ]['completed']
+                                                ]?.['completed'] ?? '—'
                                             }}
                                         </div>
                                         <div
@@ -691,9 +693,10 @@
                                 </div>
                                 <div class="mt-2 flex flex-col divide-y">
                                     @for (
-                                        scheduleItem of data.schedule[
-                                            scheduleDaySelector.value
-                                        ];
+                                        scheduleItem of
+                                            (scheduleData?.[
+                                                scheduleDaySelector.value
+                                            ] ?? []);
                                         track trackByFn($index, scheduleItem)
                                     ) {
                                         <div

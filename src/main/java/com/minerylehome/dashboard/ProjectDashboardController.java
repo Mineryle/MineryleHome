@@ -63,6 +63,41 @@ public class ProjectDashboardController {
                         })));
     }
 
+    @GetMapping(value = "/task-distribution", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDistributionData> getTaskDistribution() {
+        return ResponseEntity.ok(new TaskDistributionData(
+                new TaskDistributionOverview(
+                        new TaskDistributionTotals(594, 287),
+                        new TaskDistributionTotals(526, 260)),
+                new String[] { "API", "Backend", "Frontend", "Issues" },
+                new TaskDistributionSeries(
+                        new int[] { 15, 20, 38, 27 },
+                        new int[] { 19, 16, 42, 23 })));
+    }
+
+    @GetMapping(value = "/schedule", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ScheduleData> getSchedule() {
+        return ResponseEntity.ok(new ScheduleData(
+                new ScheduleItem[] {
+                        new ScheduleItem("Group Meeting", "in 32 minutes", "Conference room 1B"),
+                        new ScheduleItem("Coffee Break", "10:30 AM", null),
+                        new ScheduleItem("Public Beta Release", "11:00 AM", null),
+                        new ScheduleItem("Lunch", "12:10 PM", null),
+                        new ScheduleItem("Dinner with David", "05:30 PM", "Magnolia"),
+                        new ScheduleItem("Jane's Birthday Party", "07:30 PM", "Home"),
+                        new ScheduleItem("Overseer's Retirement Party", "09:30 PM", "Overseer's room")
+                },
+                new ScheduleItem[] {
+                        new ScheduleItem("Marketing Meeting", "09:00 AM", "Conference room 1A"),
+                        new ScheduleItem("Public Announcement", "11:00 AM", null),
+                        new ScheduleItem("Lunch", "12:10 PM", null),
+                        new ScheduleItem("Meeting with Beta Testers", "03:00 PM", "Conference room 2C"),
+                        new ScheduleItem("Live Stream", "05:30 PM", null),
+                        new ScheduleItem("Release Party", "07:30 PM", "CEO's house"),
+                        new ScheduleItem("CEO's Private Party", "09:30 PM", "CEO's Penthouse")
+                }));
+    }
+
     public record ProjectCardData(
             int value,
             String label,
@@ -105,5 +140,37 @@ public class ProjectDashboardController {
             String name,
             String type,
             int[] data) {
+    }
+
+    public record TaskDistributionData(
+            TaskDistributionOverview overview,
+            String[] labels,
+            TaskDistributionSeries series) {
+    }
+
+    public record TaskDistributionOverview(
+            @com.fasterxml.jackson.annotation.JsonProperty("this-week") TaskDistributionTotals thisWeek,
+            @com.fasterxml.jackson.annotation.JsonProperty("last-week") TaskDistributionTotals lastWeek) {
+    }
+
+    public record TaskDistributionTotals(
+            @com.fasterxml.jackson.annotation.JsonProperty("new") int newCount,
+            int completed) {
+    }
+
+    public record TaskDistributionSeries(
+            @com.fasterxml.jackson.annotation.JsonProperty("this-week") int[] thisWeek,
+            @com.fasterxml.jackson.annotation.JsonProperty("last-week") int[] lastWeek) {
+    }
+
+    public record ScheduleData(
+            ScheduleItem[] today,
+            ScheduleItem[] tomorrow) {
+    }
+
+    public record ScheduleItem(
+            String title,
+            String time,
+            String location) {
     }
 }
