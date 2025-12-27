@@ -26,7 +26,7 @@ public final class JooqGenerator {
                                 .withIncludes(".*"))
                         .withTarget(new Target()
                                 .withPackageName("com.minerylehome.jooq.generated")
-                                .withDirectory("target/generated-sources/jooq")));
+                                .withDirectory("src/main/java")));
 
         GenerationTool.generate(configuration);
     }
