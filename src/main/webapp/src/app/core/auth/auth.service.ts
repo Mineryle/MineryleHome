@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
-import { Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -89,8 +89,16 @@ export class AuthService {
             return of(false);
         }
 
-        this._authenticated = true;
-        return of(true);
+        return this._userService.get().pipe(
+            switchMap(() => {
+                this._authenticated = true;
+                return of(true);
+            }),
+            catchError(() => {
+                this._authenticated = false;
+                return of(false);
+            })
+        );
     }
 
     /**
