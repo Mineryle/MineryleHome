@@ -78,28 +78,11 @@
                 </div>
                 <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
                     <button
+                        *ngFor="let project of projectOptions"
                         mat-menu-item
-                        (click)="selectedProject = 'ACME Corp. Backend App'"
+                        (click)="selectedProject = project"
                     >
-                        ACME Corp. Backend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject = 'ACME Corp. Frontend App'"
-                    >
-                        ACME Corp. Frontend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject = 'Creapond'"
-                    >
-                        Creapond
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject = 'Withinpixels'"
-                    >
-                        Withinpixels
+                        {{ project }}
                     </button>
                 </mat-menu>
             </div>

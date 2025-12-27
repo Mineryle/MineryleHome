@@ -30,10 +30,31 @@ public class ProjectDashboardController {
         return ResponseEntity.ok(new ProjectCardData(38, "Proposals", "Implemented:", 16));
     }
 
+    @GetMapping(value = "/projects/selected", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProjectSelection> getSelectedProject() {
+        return ResponseEntity.ok(new ProjectSelection("ACME Corp. Backend App"));
+    }
+
+    @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProjectOptions> getProjectOptions() {
+        return ResponseEntity.ok(new ProjectOptions(new String[] {
+                "ACME Corp. Backend App",
+                "ACME Corp. Frontend App",
+                "Creapond",
+                "Withinpixels"
+        }));
+    }
+
     public record ProjectCardData(
             int value,
             String label,
             String secondaryLabel,
             int secondaryValue) {
+    }
+
+    public record ProjectSelection(String name) {
+    }
+
+    public record ProjectOptions(String[] options) {
     }
 }

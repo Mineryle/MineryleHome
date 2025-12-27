@@ -9,6 +9,14 @@ export interface ProjectCardData {
     secondaryValue: number;
 }
 
+export interface ProjectSelection {
+    name: string;
+}
+
+export interface ProjectOptions {
+    options: string[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -65,6 +73,18 @@ export class ProjectService {
     getFeaturesCard(): Observable<ProjectCardData> {
         return this._httpClient.get<ProjectCardData>(
             'api/dashboards/project/features'
+        );
+    }
+
+    getSelectedProject(): Observable<ProjectSelection> {
+        return this._httpClient.get<ProjectSelection>(
+            'api/dashboards/project/projects/selected'
+        );
+    }
+
+    getProjectOptions(): Observable<ProjectOptions> {
+        return this._httpClient.get<ProjectOptions>(
+            'api/dashboards/project/projects'
         );
     }
 }

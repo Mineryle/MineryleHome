@@ -19,6 +19,8 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import {
     ProjectCardData,
+    ProjectOptions,
+    ProjectSelection,
     ProjectService,
 } from 'app/modules/admin/dashboards/project/project.service';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
@@ -55,7 +57,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     overdueCard: ProjectCardData;
     issuesCard: ProjectCardData;
     featuresCard: ProjectCardData;
-    selectedProject: string = 'ACME Corp. Backend App';
+    selectedProject: string;
+    projectOptions: string[] = [];
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -92,6 +95,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
             overdue: this._projectService.getOverdueCard(),
             issues: this._projectService.getIssuesCard(),
             features: this._projectService.getFeaturesCard(),
+            selectedProject: this._projectService.getSelectedProject(),
+            projectOptions: this._projectService.getProjectOptions(),
         })
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((cards) => {
@@ -99,6 +104,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.overdueCard = cards.overdue;
                 this.issuesCard = cards.issues;
                 this.featuresCard = cards.features;
+                this.selectedProject = cards.selectedProject.name;
+                this.projectOptions = cards.projectOptions.options;
             });
 
         this._userService.user$
