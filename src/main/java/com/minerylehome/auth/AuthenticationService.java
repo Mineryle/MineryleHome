@@ -6,34 +6,41 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final DSLContext dsl;
 
-    public AuthenticationService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public AuthenticationService(DSLContext dsl) {
+        this.dsl = dsl;
     }
 
     public Optional<UserRecord> findUserByEmail(String email) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "SELECT id, email, password_hash, name, avatar, status FROM \"user\" WHERE email = ?",
-                    (rs, rowNum) -> new UserRecord(
-                            rs.getLong("id"),
-                            rs.getString("email"),
-                            rs.getString("password_hash"),
-                            rs.getString("name"),
-                            rs.getString("avatar"),
-                            rs.getString("status")),
-                    email));
-        } catch (EmptyResultDataAccessException ex) {
+        Record record = dsl.select(
+                        DSL.field("user_sid", Long.class),
+                        DSL.field("email", String.class),
+                        DSL.field("password_hash", String.class),
+                        DSL.field("name", String.class),
+                        DSL.field("avatar", String.class),
+                        DSL.field("status", String.class))
+                .from(DSL.table(DSL.name("user")))
+                .where(DSL.field("email").eq(email))
+                .fetchOne();
+        if (record == null) {
             return Optional.empty();
         }
+        return Optional.of(new UserRecord(
+                record.get(DSL.field("user_sid", Long.class)),
+                record.get(DSL.field("email", String.class)),
+                record.get(DSL.field("password_hash", String.class)),
+                record.get(DSL.field("name", String.class)),
+                record.get(DSL.field("avatar", String.class)),
+                record.get(DSL.field("status", String.class))));
     }
 
     public boolean passwordMatches(String rawPassword, String storedHash) {
@@ -44,24 +51,27 @@ public class AuthenticationService {
     }
 
     public long createSession(long userId, String sessionId) {
-        return jdbcTemplate.queryForObject(
-                "INSERT INTO user_session (user_id, session_id) VALUES (?, ?) RETURNING id",
-                Long.class,
-                userId,
-                sessionId);
+        return dsl.insertInto(DSL.table("user_session"))
+                .columns(DSL.field("user_sid"), DSL.field("session_id"))
+                .values(userId, sessionId)
+                .returningResult(DSL.field("user_session_sid", Long.class))
+                .fetchOne()
+                .value1();
     }
 
     public void recordActivity(long userSessionId, String method, String path, int status) {
-        jdbcTemplate.update(
-                "INSERT INTO user_session_activity (user_session_id, request_method, request_path, response_status) "
-                        + "VALUES (?, ?, ?, ?)",
-                userSessionId,
-                method,
-                path,
-                status);
-        jdbcTemplate.update(
-                "UPDATE user_session SET last_activity_at = NOW() WHERE id = ?",
-                userSessionId);
+        dsl.insertInto(DSL.table("user_session_activity"))
+                .columns(
+                        DSL.field("user_session_sid"),
+                        DSL.field("request_method"),
+                        DSL.field("request_path"),
+                        DSL.field("response_status"))
+                .values(userSessionId, method, path, status)
+                .execute();
+        dsl.update(DSL.table("user_session"))
+                .set(DSL.field("last_activity_at"), DSL.currentTimestamp())
+                .where(DSL.field("user_session_sid").eq(userSessionId))
+                .execute();
     }
 
     private String hashPassword(String password) {
