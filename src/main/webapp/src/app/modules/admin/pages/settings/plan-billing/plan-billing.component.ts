@@ -2,6 +2,7 @@ import { CurrencyPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
+    OnDestroy,
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
@@ -19,6 +20,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { FuseAlertComponent } from '@fuse/components/alert';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'settings-plan-billing',
@@ -40,14 +44,19 @@ import { FuseAlertComponent } from '@fuse/components/alert';
         CurrencyPipe,
     ],
 })
-export class SettingsPlanBillingComponent implements OnInit {
+export class SettingsPlanBillingComponent implements OnInit, OnDestroy {
     planBillingForm: UntypedFormGroup;
     plans: any[];
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
-    constructor(private _formBuilder: UntypedFormBuilder) {}
+    constructor(
+        private _formBuilder: UntypedFormBuilder,
+        private _userService: UserService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -60,7 +69,7 @@ export class SettingsPlanBillingComponent implements OnInit {
         // Create the form
         this.planBillingForm = this._formBuilder.group({
             plan: ['team'],
-            cardHolder: ['Brian Hughes'],
+            cardHolder: [''],
             cardNumber: [''],
             cardExpiration: [''],
             cardCVC: [''],
@@ -89,6 +98,15 @@ export class SettingsPlanBillingComponent implements OnInit {
                 price: '40',
             },
         ];
+
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user) => {
+                this.user = user;
+                this.planBillingForm.patchValue({
+                    cardHolder: user?.name ?? '',
+                });
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -103,5 +121,10 @@ export class SettingsPlanBillingComponent implements OnInit {
      */
     trackByFn(index: number, item: any): any {
         return item.id || index;
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }

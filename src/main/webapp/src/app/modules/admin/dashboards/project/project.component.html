@@ -10,7 +10,8 @@
                     <div class="h-16 w-16 flex-0 overflow-hidden rounded-full">
                         <img
                             class="h-full w-full object-cover"
-                            src="images/avatars/brian-hughes.jpg"
+                            [src]="user?.avatar"
+                            [alt]="user?.name ?? 'User avatar'"
                         />
                     </div>
                     <div class="ml-4 flex min-w-0 flex-col">
@@ -18,7 +19,7 @@
                             <div
                                 class="truncate text-2xl font-semibold leading-7 tracking-tight md:text-5xl md:leading-snug"
                             >
-                                {{ t('welcome-back') }}, Brian!
+                                {{ t('welcome-back') }}, {{ userFirstName }}!
                             </div>
                         </ng-container>
                         <div class="flex items-center">

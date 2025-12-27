@@ -5,6 +5,8 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    OnDestroy,
+    OnInit,
     QueryList,
     Renderer2,
     ViewChildren,
@@ -26,6 +28,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { FuseCardComponent } from '@fuse/components/card';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'cards',
@@ -58,10 +63,11 @@ import { FuseCardComponent } from '@fuse/components/card';
         TitleCasePipe,
     ],
 })
-export class CardsComponent implements AfterViewInit {
+export class CardsComponent implements AfterViewInit, OnInit, OnDestroy {
     @ViewChildren(FuseCardComponent, { read: ElementRef })
     private _fuseCards: QueryList<ElementRef>;
 
+    user: User;
     filters: string[] = [
         'all',
         'article',
@@ -76,11 +82,15 @@ export class CardsComponent implements AfterViewInit {
     ];
     numberOfCards: any = {};
     selectedFilter: string = 'all';
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
-    constructor(private _renderer2: Renderer2) {}
+    constructor(
+        private _renderer2: Renderer2,
+        private _userService: UserService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -95,6 +105,19 @@ export class CardsComponent implements AfterViewInit {
 
         // Filter the cards for the first time
         this._filterCards();
+    }
+
+    ngOnInit(): void {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user) => {
+                this.user = user;
+            });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -112,6 +135,10 @@ export class CardsComponent implements AfterViewInit {
 
         // Filter the cards
         this._filterCards();
+    }
+
+    get userFirstName(): string {
+        return this.user?.name?.split(' ')[0] ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------

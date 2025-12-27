@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import {
     FormsModule,
     NgForm,
@@ -15,6 +21,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'unlock-session-modern',
@@ -33,21 +42,26 @@ import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
         RouterLink,
     ],
 })
-export class UnlockSessionModernComponent implements OnInit {
+export class UnlockSessionModernComponent implements OnInit, OnDestroy {
     @ViewChild('unlockSessionNgForm') unlockSessionNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
-    name: string = 'Brian Hughes';
+    name: string = '';
     showAlert: boolean = false;
     unlockSessionForm: UntypedFormGroup;
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
-    constructor(private _formBuilder: UntypedFormBuilder) {}
+    constructor(
+        private _formBuilder: UntypedFormBuilder,
+        private _userService: UserService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -67,6 +81,21 @@ export class UnlockSessionModernComponent implements OnInit {
             ],
             password: ['', Validators.required],
         });
+
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user) => {
+                this.user = user;
+                this.name = user?.name ?? '';
+                this.unlockSessionForm.patchValue({
+                    name: this.name,
+                });
+            });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

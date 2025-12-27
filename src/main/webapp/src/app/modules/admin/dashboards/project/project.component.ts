@@ -15,6 +15,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { Subject, takeUntil } from 'rxjs';
@@ -47,6 +49,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     chartYearlyExpenses: ApexOptions = {};
     data: any;
     selectedProject: string = 'ACME Corp. Backend App';
+    user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -54,7 +57,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _projectService: ProjectService,
-        private _router: Router
+        private _router: Router,
+        private _userService: UserService
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -74,6 +78,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
                 // Prepare the chart data
                 this._prepareChartData();
+            });
+
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user) => {
+                this.user = user;
             });
 
         // Attach SVG fill fixer to all ApexCharts
@@ -112,6 +122,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
      */
     trackByFn(index: number, item: any): any {
         return item.id || index;
+    }
+
+    get userFirstName(): string {
+        return this.user?.name?.split(' ')[0] ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
