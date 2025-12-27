@@ -1225,7 +1225,7 @@
                         />
                         <div class="flex min-w-0 flex-col">
                             <div class="leading-tight">
-                                Brian Hughes liked your photo
+                                {{ user?.name }} liked your photo
                             </div>
                             <div
                                 class="text-secondary mt-2 text-md leading-none"
@@ -2015,7 +2015,7 @@
                 <div
                     class="mt-8 text-center text-2xl font-semibold leading-tight"
                 >
-                    Brian Hughes
+                    {{ user?.name }}
                 </div>
                 <div class="text-secondary mt-1 text-center leading-tight">
                     London, UK
@@ -2052,7 +2052,7 @@
                     [color]="'primary'"
                     [routerLink]="['./']"
                 >
-                    More about Brian
+                    More about {{ userFirstName }}
                 </a>
             </fuse-card>
 
@@ -2115,8 +2115,11 @@
                     <div class="bg-card -mt-12 rounded-full p-1">
                         <img
                             class="h-24 w-24 rounded-full"
-                            src="images/avatars/male-04.jpg"
-                            alt="Card cover image"
+                            [src]="
+                                user?.avatar ??
+                                'images/avatars/male-04.jpg'
+                            "
+                            [alt]="user?.name ?? 'User avatar'"
                         />
                     </div>
                 </div>
@@ -2124,7 +2127,7 @@
                     <div class="flex items-center justify-between">
                         <div class="mr-4">
                             <div class="text-2xl font-semibold leading-tight">
-                                Brian Hughes
+                                {{ user?.name }}
                             </div>
                             <div class="text-secondary mt-1 leading-tight">
                                 London, UK
@@ -2178,12 +2181,15 @@
             >
                 <img
                     class="mr-6 h-20 w-20 rounded-full"
-                    src="images/avatars/male-04.jpg"
-                    alt="Card cover image"
+                    [src]="
+                        user?.avatar ??
+                        'images/avatars/male-04.jpg'
+                    "
+                    [alt]="user?.name ?? 'User avatar'"
                 />
                 <div class="flex flex-col">
                     <div class="text-2xl font-semibold leading-tight">
-                        Brian Hughes
+                        {{ user?.name }}
                     </div>
                     <div class="text-secondary text-md">London, UK</div>
                 </div>
@@ -2195,14 +2201,17 @@
             >
                 <div class="flex flex-col">
                     <div class="text-2xl font-semibold leading-tight">
-                        Brian Hughes
+                        {{ user?.name }}
                     </div>
                     <div class="text-secondary text-md">London, UK</div>
                 </div>
                 <img
                     class="ml-6 h-20 w-20 rounded-full"
-                    src="images/avatars/male-04.jpg"
-                    alt="Card cover image"
+                    [src]="
+                        user?.avatar ??
+                        'images/avatars/male-04.jpg'
+                    "
+                    [alt]="user?.name ?? 'User avatar'"
                 />
             </fuse-card>
 
@@ -2212,18 +2221,21 @@
             >
                 <img
                     class="mr-6 h-16 w-16 rounded-full"
-                    src="images/avatars/male-04.jpg"
-                    alt="Card cover image"
+                    [src]="
+                        user?.avatar ??
+                        'images/avatars/male-04.jpg'
+                    "
+                    [alt]="user?.name ?? 'User avatar'"
                 />
                 <div class="flex flex-col">
                     <div class="text-2xl font-semibold leading-tight">
-                        Brian Hughes
+                        {{ user?.name }}
                     </div>
                     <div class="text-md leading-tight text-primary">
                         Head of HR Department
                     </div>
                     <div class="text-secondary mt-2 text-md">
-                        h.brian&#64;company.com
+                        {{ user?.email }}
                     </div>
                 </div>
             </fuse-card>
@@ -2234,19 +2246,22 @@
             >
                 <div class="flex flex-col">
                     <div class="text-2xl font-semibold leading-tight">
-                        Brian Hughes
+                        {{ user?.name }}
                     </div>
                     <div class="text-md leading-tight text-primary">
                         Head of HR Department
                     </div>
                     <div class="text-secondary mt-2 text-md">
-                        h.brian&#64;company.com
+                        {{ user?.email }}
                     </div>
                 </div>
                 <img
                     class="ml-6 h-16 w-16 rounded-full"
-                    src="images/avatars/male-04.jpg"
-                    alt="Card cover image"
+                    [src]="
+                        user?.avatar ??
+                        'images/avatars/male-04.jpg'
+                    "
+                    [alt]="user?.name ?? 'User avatar'"
                 />
             </fuse-card>
 
@@ -2788,10 +2803,10 @@
                     <div class="mb-6 flex items-center sm:mb-0">
                         <img
                             class="mr-4 h-12 w-12 min-w-12 rounded-full"
-                            src="images/avatars/brian-hughes.jpg"
-                            alt="Card cover image"
+                            [src]="user?.avatar"
+                            [alt]="user?.name ?? 'User avatar'"
                         />
-                        <div class="sm:hidden">Brian Hughes</div>
+                        <div class="sm:hidden">{{ user?.name }}</div>
                     </div>
                     <mat-form-field
                         class="w-full"
@@ -3082,8 +3097,8 @@
                         <div class="flex items-start">
                             <img
                                 class="mr-5 h-12 w-12 rounded-full"
-                                src="images/avatars/brian-hughes.jpg"
-                                alt="Card cover image"
+                                [src]="user?.avatar"
+                                [alt]="user?.name ?? 'User avatar'"
                             />
                             <mat-form-field
                                 class="w-full"
@@ -4866,8 +4881,8 @@
                     <div class="flex items-start">
                         <img
                             class="mr-5 h-12 w-12 rounded-full"
-                            src="images/avatars/brian-hughes.jpg"
-                            alt="Card cover image"
+                            [src]="user?.avatar"
+                            [alt]="user?.name ?? 'User avatar'"
                         />
                         <mat-form-field
                             class="w-full"

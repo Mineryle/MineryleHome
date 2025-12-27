@@ -27,7 +27,9 @@
             <div
                 class="mt-4 flex flex-col items-center lg:ml-8 lg:mt-0 lg:items-start"
             >
-                <div class="text-lg font-bold leading-none">Brian Hughes</div>
+                <div class="text-lg font-bold leading-none">
+                    {{ user?.name }}
+                </div>
                 <div class="text-secondary">London, UK</div>
             </div>
 
@@ -623,7 +625,7 @@
                         />
                         <div class="flex min-w-0 flex-col">
                             <div class="leading-tight">
-                                Brian Hughes liked your photo
+                                {{ user?.name }} liked your photo
                             </div>
                             <div
                                 class="text-secondary mt-2 text-md leading-none"
@@ -673,10 +675,11 @@
                     <div class="mb-6 flex items-center sm:mb-0">
                         <img
                             class="mr-4 h-12 w-12 min-w-12 rounded-full"
-                            src="images/avatars/brian-hughes.jpg"
+                            [src]="user?.avatar"
+                            [alt]="user?.name ?? 'User avatar'"
                             alt="Card cover image"
                         />
-                        <div class="sm:hidden">Brian Hughes</div>
+                        <div class="sm:hidden">{{ user?.name }}</div>
                     </div>
                     <mat-form-field
                         class="w-full"
@@ -967,7 +970,8 @@
                         <div class="flex items-start">
                             <img
                                 class="mr-5 h-12 w-12 rounded-full"
-                                src="images/avatars/brian-hughes.jpg"
+                                [src]="user?.avatar"
+                                [alt]="user?.name ?? 'User avatar'"
                                 alt="Card cover image"
                             />
                             <mat-form-field
