@@ -1,5 +1,7 @@
 package com.minerylehome.dashboard;
 
+import com.google.gson.Gson;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,44 +12,52 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/dashboards/project")
 public class ProjectDashboardController {
 
+    private final Gson gson = new Gson();
+
     @GetMapping(value = "/summary", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectCardData> getSummaryCard() {
-        return ResponseEntity.ok(new ProjectCardData(21, "Due Tasks", "Completed:", 13));
+    public ResponseEntity<String> getSummaryCard() {
+        ProjectCardData payload = new ProjectCardData(21, "Due Tasks", "Completed:", 13);
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectCardData> getOverdueCard() {
-        return ResponseEntity.ok(new ProjectCardData(17, "Tasks", "From yesterday:", 9));
+    public ResponseEntity<String> getOverdueCard() {
+        ProjectCardData payload = new ProjectCardData(17, "Tasks", "From yesterday:", 9);
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/issues", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectCardData> getIssuesCard() {
-        return ResponseEntity.ok(new ProjectCardData(24, "Open", "Closed today:", 19));
+    public ResponseEntity<String> getIssuesCard() {
+        ProjectCardData payload = new ProjectCardData(24, "Open", "Closed today:", 19);
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/features", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectCardData> getFeaturesCard() {
-        return ResponseEntity.ok(new ProjectCardData(38, "Proposals", "Implemented:", 16));
+    public ResponseEntity<String> getFeaturesCard() {
+        ProjectCardData payload = new ProjectCardData(38, "Proposals", "Implemented:", 16);
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/projects/selected", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectSelection> getSelectedProject() {
-        return ResponseEntity.ok(new ProjectSelection("ACME Corp. Backend App"));
+    public ResponseEntity<String> getSelectedProject() {
+        ProjectSelection payload = new ProjectSelection("ACME Corp. Backend App");
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectOptions> getProjectOptions() {
-        return ResponseEntity.ok(new ProjectOptions(new String[] {
+    public ResponseEntity<String> getProjectOptions() {
+        ProjectOptions payload = new ProjectOptions(new String[] {
                 "ACME Corp. Backend App",
                 "ACME Corp. Frontend App",
                 "Creapond",
                 "Withinpixels"
-        }));
+        });
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/github-issues", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GithubIssuesData> getGithubIssues() {
-        return ResponseEntity.ok(new GithubIssuesData(
+    public ResponseEntity<String> getGithubIssues() {
+        GithubIssuesData payload = new GithubIssuesData(
                 new GithubIssuesOverview(
                         new IssueBreakdown(214, 75, 3, 4, 8, 6),
                         new IssueBreakdown(197, 72, 6, 11, 6, 5)),
@@ -60,24 +70,26 @@ public class ProjectDashboardController {
                         new IssueSeries[] {
                                 new IssueSeries("New issues", "line", new int[] { 37, 32, 39, 27, 18, 24, 20 }),
                                 new IssueSeries("Closed issues", "column", new int[] { 9, 8, 10, 12, 7, 11, 15 })
-                        })));
+                        }));
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/task-distribution", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDistributionData> getTaskDistribution() {
-        return ResponseEntity.ok(new TaskDistributionData(
+    public ResponseEntity<String> getTaskDistribution() {
+        TaskDistributionData payload = new TaskDistributionData(
                 new TaskDistributionOverview(
                         new TaskDistributionTotals(594, 287),
                         new TaskDistributionTotals(526, 260)),
                 new String[] { "API", "Backend", "Frontend", "Issues" },
                 new TaskDistributionSeries(
                         new int[] { 15, 20, 38, 27 },
-                        new int[] { 19, 16, 42, 23 })));
+                        new int[] { 19, 16, 42, 23 }));
+        return jsonResponse(payload);
     }
 
     @GetMapping(value = "/schedule", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ScheduleData> getSchedule() {
-        return ResponseEntity.ok(new ScheduleData(
+    public ResponseEntity<String> getSchedule() {
+        ScheduleData payload = new ScheduleData(
                 new ScheduleItem[] {
                         new ScheduleItem("Group Meeting", "in 32 minutes", "Conference room 1B"),
                         new ScheduleItem("Coffee Break", "10:30 AM", null),
@@ -95,7 +107,14 @@ public class ProjectDashboardController {
                         new ScheduleItem("Live Stream", "05:30 PM", null),
                         new ScheduleItem("Release Party", "07:30 PM", "CEO's house"),
                         new ScheduleItem("CEO's Private Party", "09:30 PM", "CEO's Penthouse")
-                }));
+                });
+        return jsonResponse(payload);
+    }
+
+    private ResponseEntity<String> jsonResponse(Object payload) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(gson.toJson(payload));
     }
 
     public record ProjectCardData(
