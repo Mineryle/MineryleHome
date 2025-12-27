@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private static final String USER_ID = UUID.randomUUID().toString();
-    private static final String DEFAULT_AVATAR = "images/avatars/brian-hughes.jpg";
+    private static final String DEFAULT_AVATAR = "images/avatars/Evan - IMG_0188.jpg";
 
     private UserProfile userProfile = new UserProfile(
             USER_ID,
