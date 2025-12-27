@@ -17,9 +17,22 @@ import { Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
-import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
-import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
-import { Subject, takeUntil } from 'rxjs';
+import {
+    GithubIssuesData,
+    ProjectCardData,
+    ProjectOptions,
+    ProjectSelection,
+    ProjectService,
+    ScheduleData,
+    TaskDistributionData,
+} from 'app/modules/admin/dashboards/project/project.service';
+import {
+    ApexAxisChartSeries,
+    ApexNonAxisChartSeries,
+    ApexOptions,
+    NgApexchartsModule,
+} from 'ng-apexcharts';
+import { Subject, forkJoin, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'project',
@@ -48,7 +61,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
     chartMonthlyExpenses: ApexOptions = {};
     chartYearlyExpenses: ApexOptions = {};
     data: any;
-    selectedProject: string = 'ACME Corp. Backend App';
+    summaryCard: ProjectCardData;
+    overdueCard: ProjectCardData;
+    issuesCard: ProjectCardData;
+    featuresCard: ProjectCardData;
+    githubIssuesData: GithubIssuesData;
+    taskDistributionData: TaskDistributionData;
+    scheduleData: ScheduleData;
+    selectedProject: string;
+    projectOptions: string[] = [];
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -77,6 +98,31 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.data = data;
 
                 // Prepare the chart data
+                this._prepareChartData();
+            });
+
+        forkJoin({
+            summary: this._projectService.getSummaryCard(),
+            overdue: this._projectService.getOverdueCard(),
+            issues: this._projectService.getIssuesCard(),
+            features: this._projectService.getFeaturesCard(),
+            selectedProject: this._projectService.getSelectedProject(),
+            projectOptions: this._projectService.getProjectOptions(),
+            githubIssues: this._projectService.getGithubIssues(),
+            taskDistribution: this._projectService.getTaskDistribution(),
+            schedule: this._projectService.getSchedule(),
+        })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((cards) => {
+                this.summaryCard = cards.summary;
+                this.overdueCard = cards.overdue;
+                this.issuesCard = cards.issues;
+                this.featuresCard = cards.features;
+                this.selectedProject = cards.selectedProject.name;
+                this.projectOptions = cards.projectOptions.options;
+                this.githubIssuesData = cards.githubIssues;
+                this.taskDistributionData = cards.taskDistribution;
+                this.scheduleData = cards.schedule;
                 this._prepareChartData();
             });
 
@@ -166,6 +212,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
      * @private
      */
     private _prepareChartData(): void {
+        if (!this.data || !this.githubIssuesData || !this.taskDistributionData) {
+            return;
+        }
+
         // Github issues
         this.chartGithubIssues = {
             chart: {
@@ -191,7 +241,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
             grid: {
                 borderColor: 'var(--fuse-border)',
             },
-            labels: this.data.githubIssues.labels,
+            labels: this.githubIssuesData.labels,
             legend: {
                 show: false,
             },
@@ -200,7 +250,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
                     columnWidth: '50%',
                 },
             },
-            series: this.data.githubIssues.series,
+            series: this.githubIssuesData.series as unknown as ApexAxisChartSeries,
             states: {
                 hover: {
                     filter: {
@@ -255,7 +305,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
                     enabled: false,
                 },
             },
-            labels: this.data.taskDistribution.labels,
+            labels: this.taskDistributionData.labels,
             legend: {
                 position: 'bottom',
             },
@@ -269,7 +319,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
                     },
                 },
             },
-            series: this.data.taskDistribution.series,
+            series: this
+                .taskDistributionData
+                .series as unknown as ApexNonAxisChartSeries,
             states: {
                 hover: {
                     filter: {

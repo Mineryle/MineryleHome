@@ -78,28 +78,11 @@
                 </div>
                 <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
                     <button
+                        *ngFor="let project of projectOptions"
                         mat-menu-item
-                        (click)="selectedProject = 'ACME Corp. Backend App'"
+                        (click)="selectedProject = project"
                     >
-                        ACME Corp. Backend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject = 'ACME Corp. Frontend App'"
-                    >
-                        ACME Corp. Frontend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject = 'Creapond'"
-                    >
-                        Creapond
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject = 'Withinpixels'"
-                    >
-                        Withinpixels
+                        {{ project }}
                     </button>
                 </mat-menu>
             </div>
@@ -160,12 +143,12 @@
                                     <div
                                         class="text-7xl font-bold leading-none tracking-tight text-blue-500 sm:text-8xl"
                                     >
-                                        21
+                                        {{ summaryCard?.value ?? '—' }}
                                     </div>
                                     <div
                                         class="text-lg font-medium text-blue-600 dark:text-blue-500"
                                     >
-                                        Due Tasks
+                                        {{ summaryCard?.label }}
                                     </div>
                                     <div
                                         class="text-secondary mt-5 flex w-full items-baseline justify-center"
@@ -173,12 +156,12 @@
                                         <div
                                             class="truncate text-md font-medium"
                                         >
-                                            Completed:
+                                            {{ summaryCard?.secondaryLabel }}
                                         </div>
                                         <div
                                             class="ml-1.5 text-lg font-semibold"
                                         >
-                                            13
+                                            {{ summaryCard?.secondaryValue ?? '—' }}
                                         </div>
                                     </div>
                                 </div>
@@ -222,12 +205,12 @@
                                     <div
                                         class="text-7xl font-bold leading-none tracking-tight text-red-500 sm:text-8xl"
                                     >
-                                        17
+                                        {{ overdueCard?.value ?? '—' }}
                                     </div>
                                     <div
                                         class="text-lg font-medium text-red-600 dark:text-red-500"
                                     >
-                                        Tasks
+                                        {{ overdueCard?.label }}
                                     </div>
                                     <div
                                         class="text-secondary mt-5 flex w-full items-baseline justify-center"
@@ -235,12 +218,12 @@
                                         <div
                                             class="truncate text-md font-medium"
                                         >
-                                            From yesterday:
+                                            {{ overdueCard?.secondaryLabel }}
                                         </div>
                                         <div
                                             class="ml-1.5 text-lg font-semibold"
                                         >
-                                            9
+                                            {{ overdueCard?.secondaryValue ?? '—' }}
                                         </div>
                                     </div>
                                 </div>
@@ -284,12 +267,12 @@
                                     <div
                                         class="text-7xl font-bold leading-none tracking-tight text-amber-500 sm:text-8xl"
                                     >
-                                        24
+                                        {{ issuesCard?.value ?? '—' }}
                                     </div>
                                     <div
                                         class="text-lg font-medium text-amber-600 dark:text-amber-500"
                                     >
-                                        Open
+                                        {{ issuesCard?.label }}
                                     </div>
                                     <div
                                         class="text-secondary mt-5 flex w-full items-baseline justify-center"
@@ -297,12 +280,12 @@
                                         <div
                                             class="truncate text-md font-medium"
                                         >
-                                            Closed today:
+                                            {{ issuesCard?.secondaryLabel }}
                                         </div>
                                         <div
                                             class="ml-1.5 text-lg font-semibold"
                                         >
-                                            19
+                                            {{ issuesCard?.secondaryValue ?? '—' }}
                                         </div>
                                     </div>
                                 </div>
@@ -346,12 +329,12 @@
                                     <div
                                         class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl"
                                     >
-                                        38
+                                        {{ featuresCard?.value ?? '—' }}
                                     </div>
                                     <div
                                         class="text-lg font-medium text-green-600 dark:text-green-500"
                                     >
-                                        Proposals
+                                        {{ featuresCard?.label }}
                                     </div>
                                     <div
                                         class="text-secondary mt-5 flex w-full items-baseline justify-center"
@@ -359,12 +342,12 @@
                                         <div
                                             class="truncate text-md font-medium"
                                         >
-                                            Implemented:
+                                            {{ featuresCard?.secondaryLabel }}
                                         </div>
                                         <div
                                             class="ml-1.5 text-lg font-semibold"
                                         >
-                                            16
+                                            {{ featuresCard?.secondaryValue ?? '—' }}
                                         </div>
                                     </div>
                                 </div>
@@ -465,11 +448,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['new-issues']
+                                                        ]?.['new-issues'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -486,11 +469,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['closed-issues']
+                                                        ]?.['closed-issues'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -507,11 +490,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['fixed']
+                                                        ]?.['fixed'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -528,11 +511,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['wont-fix']
+                                                        ]?.['wont-fix'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -549,11 +532,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['re-opened']
+                                                        ]?.['re-opened'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -570,11 +553,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['needs-triage']
+                                                        ]?.['needs-triage'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -647,10 +630,11 @@
                                             class="text-5xl font-semibold leading-none tracking-tighter"
                                         >
                                             {{
-                                                data.taskDistribution.overview[
+                                                taskDistributionData
+                                                    ?.overview?.[
                                                     taskDistributionWeekSelector
                                                         .value
-                                                ]['new']
+                                                ]?.['new'] ?? '—'
                                             }}
                                         </div>
                                         <div
@@ -666,10 +650,11 @@
                                             class="text-5xl font-semibold leading-none tracking-tighter"
                                         >
                                             {{
-                                                data.taskDistribution.overview[
+                                                taskDistributionData
+                                                    ?.overview?.[
                                                     taskDistributionWeekSelector
                                                         .value
-                                                ]['completed']
+                                                ]?.['completed'] ?? '—'
                                             }}
                                         </div>
                                         <div
@@ -708,9 +693,10 @@
                                 </div>
                                 <div class="mt-2 flex flex-col divide-y">
                                     @for (
-                                        scheduleItem of data.schedule[
-                                            scheduleDaySelector.value
-                                        ];
+                                        scheduleItem of
+                                            (scheduleData?.[
+                                                scheduleDaySelector.value
+                                            ] ?? []);
                                         track trackByFn($index, scheduleItem)
                                     ) {
                                         <div
