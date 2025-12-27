@@ -237,7 +237,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
                     columnWidth: '50%',
                 },
             },
-            series: this.githubIssuesData.series,
+            series: this.githubIssuesData.series as unknown as ApexAxisChartSeries,
             states: {
                 hover: {
                     filter: {
