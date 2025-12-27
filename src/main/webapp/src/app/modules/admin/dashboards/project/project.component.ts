@@ -18,6 +18,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import {
+    GithubIssuesData,
     ProjectCardData,
     ProjectOptions,
     ProjectSelection,
@@ -57,6 +58,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     overdueCard: ProjectCardData;
     issuesCard: ProjectCardData;
     featuresCard: ProjectCardData;
+    githubIssuesData: GithubIssuesData;
     selectedProject: string;
     projectOptions: string[] = [];
     user: User;
@@ -97,6 +99,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
             features: this._projectService.getFeaturesCard(),
             selectedProject: this._projectService.getSelectedProject(),
             projectOptions: this._projectService.getProjectOptions(),
+            githubIssues: this._projectService.getGithubIssues(),
         })
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((cards) => {
@@ -106,6 +109,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.featuresCard = cards.features;
                 this.selectedProject = cards.selectedProject.name;
                 this.projectOptions = cards.projectOptions.options;
+                this.githubIssuesData = cards.githubIssues;
+                this._prepareChartData();
             });
 
         this._userService.user$
@@ -194,6 +199,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
      * @private
      */
     private _prepareChartData(): void {
+        if (!this.data || !this.githubIssuesData) {
+            return;
+        }
+
         // Github issues
         this.chartGithubIssues = {
             chart: {
@@ -219,7 +228,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
             grid: {
                 borderColor: 'var(--fuse-border)',
             },
-            labels: this.data.githubIssues.labels,
+            labels: this.githubIssuesData.labels,
             legend: {
                 show: false,
             },
@@ -228,7 +237,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
                     columnWidth: '50%',
                 },
             },
-            series: this.data.githubIssues.series,
+            series: this.githubIssuesData.series,
             states: {
                 hover: {
                     filter: {

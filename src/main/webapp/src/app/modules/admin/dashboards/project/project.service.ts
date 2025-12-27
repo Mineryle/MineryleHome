@@ -17,6 +17,37 @@ export interface ProjectOptions {
     options: string[];
 }
 
+export interface GithubIssuesData {
+    overview: GithubIssuesOverview;
+    labels: string[];
+    series: GithubIssuesSeries;
+}
+
+export interface GithubIssuesOverview {
+    'this-week': GithubIssuesBreakdown;
+    'last-week': GithubIssuesBreakdown;
+}
+
+export interface GithubIssuesBreakdown {
+    'new-issues': number;
+    'closed-issues': number;
+    fixed: number;
+    'wont-fix': number;
+    're-opened': number;
+    'needs-triage': number;
+}
+
+export interface GithubIssuesSeries {
+    'this-week': GithubIssuesSeriesEntry[];
+    'last-week': GithubIssuesSeriesEntry[];
+}
+
+export interface GithubIssuesSeriesEntry {
+    name: string;
+    type: string;
+    data: number[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -85,6 +116,12 @@ export class ProjectService {
     getProjectOptions(): Observable<ProjectOptions> {
         return this._httpClient.get<ProjectOptions>(
             'api/dashboards/project/projects'
+        );
+    }
+
+    getGithubIssues(): Observable<GithubIssuesData> {
+        return this._httpClient.get<GithubIssuesData>(
+            'api/dashboards/project/github-issues'
         );
     }
 }

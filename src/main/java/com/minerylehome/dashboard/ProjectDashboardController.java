@@ -45,6 +45,24 @@ public class ProjectDashboardController {
         }));
     }
 
+    @GetMapping(value = "/github-issues", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GithubIssuesData> getGithubIssues() {
+        return ResponseEntity.ok(new GithubIssuesData(
+                new GithubIssuesOverview(
+                        new IssueBreakdown(214, 75, 3, 4, 8, 6),
+                        new IssueBreakdown(197, 72, 6, 11, 6, 5)),
+                new String[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" },
+                new GithubIssuesSeries(
+                        new IssueSeries[] {
+                                new IssueSeries("New issues", "line", new int[] { 42, 28, 43, 34, 20, 25, 22 }),
+                                new IssueSeries("Closed issues", "column", new int[] { 11, 10, 8, 11, 8, 10, 17 })
+                        },
+                        new IssueSeries[] {
+                                new IssueSeries("New issues", "line", new int[] { 37, 32, 39, 27, 18, 24, 20 }),
+                                new IssueSeries("Closed issues", "column", new int[] { 9, 8, 10, 12, 7, 11, 15 })
+                        })));
+    }
+
     public record ProjectCardData(
             int value,
             String label,
@@ -56,5 +74,36 @@ public class ProjectDashboardController {
     }
 
     public record ProjectOptions(String[] options) {
+    }
+
+    public record GithubIssuesData(
+            GithubIssuesOverview overview,
+            String[] labels,
+            GithubIssuesSeries series) {
+    }
+
+    public record GithubIssuesOverview(
+            @com.fasterxml.jackson.annotation.JsonProperty("this-week") IssueBreakdown thisWeek,
+            @com.fasterxml.jackson.annotation.JsonProperty("last-week") IssueBreakdown lastWeek) {
+    }
+
+    public record IssueBreakdown(
+            @com.fasterxml.jackson.annotation.JsonProperty("new-issues") int newIssues,
+            @com.fasterxml.jackson.annotation.JsonProperty("closed-issues") int closedIssues,
+            int fixed,
+            @com.fasterxml.jackson.annotation.JsonProperty("wont-fix") int wontFix,
+            @com.fasterxml.jackson.annotation.JsonProperty("re-opened") int reOpened,
+            @com.fasterxml.jackson.annotation.JsonProperty("needs-triage") int needsTriage) {
+    }
+
+    public record GithubIssuesSeries(
+            @com.fasterxml.jackson.annotation.JsonProperty("this-week") IssueSeries[] thisWeek,
+            @com.fasterxml.jackson.annotation.JsonProperty("last-week") IssueSeries[] lastWeek) {
+    }
+
+    public record IssueSeries(
+            String name,
+            String type,
+            int[] data) {
     }
 }

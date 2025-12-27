@@ -448,11 +448,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['new-issues']
+                                                        ]?.['new-issues'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -469,11 +469,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['closed-issues']
+                                                        ]?.['closed-issues'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -490,11 +490,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['fixed']
+                                                        ]?.['fixed'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -511,11 +511,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['wont-fix']
+                                                        ]?.['wont-fix'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -532,11 +532,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['re-opened']
+                                                        ]?.['re-opened'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -553,11 +553,11 @@
                                                     class="text-5xl font-semibold leading-none tracking-tight"
                                                 >
                                                     {{
-                                                        data.githubIssues
-                                                            .overview[
+                                                        githubIssuesData
+                                                            ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]['needs-triage']
+                                                        ]?.['needs-triage'] ?? '—'
                                                     }}
                                                 </div>
                                                 <div
