@@ -17,9 +17,12 @@ import { Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
-import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
+import {
+    ProjectCardData,
+    ProjectService,
+} from 'app/modules/admin/dashboards/project/project.service';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, forkJoin, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'project',
@@ -48,6 +51,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
     chartMonthlyExpenses: ApexOptions = {};
     chartYearlyExpenses: ApexOptions = {};
     data: any;
+    summaryCard: ProjectCardData;
+    overdueCard: ProjectCardData;
+    issuesCard: ProjectCardData;
+    featuresCard: ProjectCardData;
     selectedProject: string = 'ACME Corp. Backend App';
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -78,6 +85,20 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
                 // Prepare the chart data
                 this._prepareChartData();
+            });
+
+        forkJoin({
+            summary: this._projectService.getSummaryCard(),
+            overdue: this._projectService.getOverdueCard(),
+            issues: this._projectService.getIssuesCard(),
+            features: this._projectService.getFeaturesCard(),
+        })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((cards) => {
+                this.summaryCard = cards.summary;
+                this.overdueCard = cards.overdue;
+                this.issuesCard = cards.issues;
+                this.featuresCard = cards.features;
             });
 
         this._userService.user$

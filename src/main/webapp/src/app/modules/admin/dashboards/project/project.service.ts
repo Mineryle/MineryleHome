@@ -2,6 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
+export interface ProjectCardData {
+    value: number;
+    label: string;
+    secondaryLabel: string;
+    secondaryValue: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -34,6 +41,30 @@ export class ProjectService {
             tap((response: any) => {
                 this._data.next(response);
             })
+        );
+    }
+
+    getSummaryCard(): Observable<ProjectCardData> {
+        return this._httpClient.get<ProjectCardData>(
+            'api/dashboards/project/summary'
+        );
+    }
+
+    getOverdueCard(): Observable<ProjectCardData> {
+        return this._httpClient.get<ProjectCardData>(
+            'api/dashboards/project/overdue'
+        );
+    }
+
+    getIssuesCard(): Observable<ProjectCardData> {
+        return this._httpClient.get<ProjectCardData>(
+            'api/dashboards/project/issues'
+        );
+    }
+
+    getFeaturesCard(): Observable<ProjectCardData> {
+        return this._httpClient.get<ProjectCardData>(
+            'api/dashboards/project/features'
         );
     }
 }
