@@ -4,9 +4,10 @@
 package com.minerylehome.jooq.generated;
 
 
-import com.minerylehome.jooq.generated.tables.User;
-import com.minerylehome.jooq.generated.tables.UserSession;
-import com.minerylehome.jooq.generated.tables.UserSessionActivity;
+import com.minerylehome.jooq.generated.tables.Account;
+import com.minerylehome.jooq.generated.tables.AccountSession;
+import com.minerylehome.jooq.generated.tables.AccountSessionActivity;
+import com.minerylehome.jooq.generated.tables.Navigation;
 
 
 /**
@@ -16,17 +17,22 @@ import com.minerylehome.jooq.generated.tables.UserSessionActivity;
 public class Tables {
 
     /**
-     * The table <code>public.user</code>.
+     * The table <code>public.account</code>.
      */
-    public static final User USER = User.USER;
+    public static final Account ACCOUNT = Account.ACCOUNT;
 
     /**
-     * The table <code>public.user_session</code>.
+     * The table <code>public.account_session</code>.
      */
-    public static final UserSession USER_SESSION = UserSession.USER_SESSION;
+    public static final AccountSession ACCOUNT_SESSION = AccountSession.ACCOUNT_SESSION;
 
     /**
-     * The table <code>public.user_session_activity</code>.
+     * The table <code>public.account_session_activity</code>.
      */
-    public static final UserSessionActivity USER_SESSION_ACTIVITY = UserSessionActivity.USER_SESSION_ACTIVITY;
+    public static final AccountSessionActivity ACCOUNT_SESSION_ACTIVITY = AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY;
+
+    /**
+     * The table <code>public.navigation</code>.
+     */
+    public static final Navigation NAVIGATION = Navigation.NAVIGATION;
 }

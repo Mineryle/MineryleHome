@@ -4,8 +4,9 @@
 package com.minerylehome.jooq.generated;
 
 
-import com.minerylehome.jooq.generated.tables.UserSession;
-import com.minerylehome.jooq.generated.tables.UserSessionActivity;
+import com.minerylehome.jooq.generated.tables.AccountSession;
+import com.minerylehome.jooq.generated.tables.AccountSessionActivity;
+import com.minerylehome.jooq.generated.tables.Navigation;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -23,7 +24,10 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX_USER_SESSION_ACTIVITY_CREATED_AT = Internal.createIndex(DSL.name("idx_user_session_activity_created_at"), UserSessionActivity.USER_SESSION_ACTIVITY, new OrderField[] { UserSessionActivity.USER_SESSION_ACTIVITY.CREATED_AT }, false);
-    public static final Index IDX_USER_SESSION_ACTIVITY_SESSION_SID = Internal.createIndex(DSL.name("idx_user_session_activity_session_sid"), UserSessionActivity.USER_SESSION_ACTIVITY, new OrderField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_SID }, false);
-    public static final Index IDX_USER_SESSION_USER_SID = Internal.createIndex(DSL.name("idx_user_session_user_sid"), UserSession.USER_SESSION, new OrderField[] { UserSession.USER_SESSION.USER_SID }, false);
+    public static final Index IDX_ACCOUNT_SESSION_ACCOUNT_SID = Internal.createIndex(DSL.name("idx_account_session_account_sid"), AccountSession.ACCOUNT_SESSION, new OrderField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SID }, false);
+    public static final Index IDX_ACCOUNT_SESSION_ACTIVITY_CREATED_AT = Internal.createIndex(DSL.name("idx_account_session_activity_created_at"), AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY, new OrderField[] { AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY.CREATED_AT }, false);
+    public static final Index IDX_ACCOUNT_SESSION_ACTIVITY_SESSION_SID = Internal.createIndex(DSL.name("idx_account_session_activity_session_sid"), AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY, new OrderField[] { AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY.ACCOUNT_SESSION_SID }, false);
+    public static final Index IDX_NAVIGATION_ACCOUNT_KEY = Internal.createIndex(DSL.name("idx_navigation_account_key"), Navigation.NAVIGATION, new OrderField[] { Navigation.NAVIGATION.ACCOUNT_SID, Navigation.NAVIGATION.NAVIGATION_KEY }, false);
+    public static final Index IDX_NAVIGATION_ACCOUNT_SID = Internal.createIndex(DSL.name("idx_navigation_account_sid"), Navigation.NAVIGATION, new OrderField[] { Navigation.NAVIGATION.ACCOUNT_SID }, false);
+    public static final Index IDX_NAVIGATION_PARENT_SID = Internal.createIndex(DSL.name("idx_navigation_parent_sid"), Navigation.NAVIGATION, new OrderField[] { Navigation.NAVIGATION.PARENT_NAVIGATION_SID }, false);
 }

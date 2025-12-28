@@ -4,12 +4,14 @@
 package com.minerylehome.jooq.generated;
 
 
-import com.minerylehome.jooq.generated.tables.User;
-import com.minerylehome.jooq.generated.tables.UserSession;
-import com.minerylehome.jooq.generated.tables.UserSessionActivity;
-import com.minerylehome.jooq.generated.tables.records.UserRecord;
-import com.minerylehome.jooq.generated.tables.records.UserSessionActivityRecord;
-import com.minerylehome.jooq.generated.tables.records.UserSessionRecord;
+import com.minerylehome.jooq.generated.tables.Account;
+import com.minerylehome.jooq.generated.tables.AccountSession;
+import com.minerylehome.jooq.generated.tables.AccountSessionActivity;
+import com.minerylehome.jooq.generated.tables.Navigation;
+import com.minerylehome.jooq.generated.tables.records.AccountRecord;
+import com.minerylehome.jooq.generated.tables.records.AccountSessionActivityRecord;
+import com.minerylehome.jooq.generated.tables.records.AccountSessionRecord;
+import com.minerylehome.jooq.generated.tables.records.NavigationRecord;
 
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
@@ -30,16 +32,19 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UserRecord> USER_EMAIL_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), new TableField[] { User.USER.EMAIL }, true);
-    public static final UniqueKey<UserRecord> USER_PKEY = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), new TableField[] { User.USER.USER_SID }, true);
-    public static final UniqueKey<UserSessionRecord> USER_SESSION_PKEY = Internal.createUniqueKey(UserSession.USER_SESSION, DSL.name("user_session_pkey"), new TableField[] { UserSession.USER_SESSION.USER_SESSION_SID }, true);
-    public static final UniqueKey<UserSessionRecord> USER_SESSION_SESSION_ID_KEY = Internal.createUniqueKey(UserSession.USER_SESSION, DSL.name("user_session_session_id_key"), new TableField[] { UserSession.USER_SESSION.SESSION_ID }, true);
-    public static final UniqueKey<UserSessionActivityRecord> USER_SESSION_ACTIVITY_PKEY = Internal.createUniqueKey(UserSessionActivity.USER_SESSION_ACTIVITY, DSL.name("user_session_activity_pkey"), new TableField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_ACTIVITY_SID }, true);
+    public static final UniqueKey<AccountRecord> ACCOUNT_EMAIL_KEY = Internal.createUniqueKey(Account.ACCOUNT, DSL.name("account_email_key"), new TableField[] { Account.ACCOUNT.EMAIL }, true);
+    public static final UniqueKey<AccountRecord> ACCOUNT_PKEY = Internal.createUniqueKey(Account.ACCOUNT, DSL.name("account_pkey"), new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true);
+    public static final UniqueKey<AccountSessionRecord> ACCOUNT_SESSION_PKEY = Internal.createUniqueKey(AccountSession.ACCOUNT_SESSION, DSL.name("account_session_pkey"), new TableField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SESSION_SID }, true);
+    public static final UniqueKey<AccountSessionRecord> ACCOUNT_SESSION_SESSION_ID_KEY = Internal.createUniqueKey(AccountSession.ACCOUNT_SESSION, DSL.name("account_session_session_id_key"), new TableField[] { AccountSession.ACCOUNT_SESSION.SESSION_ID }, true);
+    public static final UniqueKey<AccountSessionActivityRecord> ACCOUNT_SESSION_ACTIVITY_PKEY = Internal.createUniqueKey(AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY, DSL.name("account_session_activity_pkey"), new TableField[] { AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY.ACCOUNT_SESSION_ACTIVITY_SID }, true);
+    public static final UniqueKey<NavigationRecord> NAVIGATION_PKEY = Internal.createUniqueKey(Navigation.NAVIGATION, DSL.name("navigation_pkey"), new TableField[] { Navigation.NAVIGATION.NAVIGATION_SID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<UserSessionRecord, UserRecord> USER_SESSION__USER_SESSION_USER_SID_FKEY = Internal.createForeignKey(UserSession.USER_SESSION, DSL.name("user_session_user_sid_fkey"), new TableField[] { UserSession.USER_SESSION.USER_SID }, Keys.USER_PKEY, new TableField[] { User.USER.USER_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
-    public static final ForeignKey<UserSessionActivityRecord, UserSessionRecord> USER_SESSION_ACTIVITY__USER_SESSION_ACTIVITY_USER_SESSION_SID_FKEY = Internal.createForeignKey(UserSessionActivity.USER_SESSION_ACTIVITY, DSL.name("user_session_activity_user_session_sid_fkey"), new TableField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_SID }, Keys.USER_SESSION_PKEY, new TableField[] { UserSession.USER_SESSION.USER_SESSION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<AccountSessionRecord, AccountRecord> ACCOUNT_SESSION__ACCOUNT_SESSION_ACCOUNT_SID_FKEY = Internal.createForeignKey(AccountSession.ACCOUNT_SESSION, DSL.name("account_session_account_sid_fkey"), new TableField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<AccountSessionActivityRecord, AccountSessionRecord> ACCOUNT_SESSION_ACTIVITY__ACCOUNT_SESSION_ACTIVITY_ACCOUNT_SESSION_SID_FKEY = Internal.createForeignKey(AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY, DSL.name("account_session_activity_account_session_sid_fkey"), new TableField[] { AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY.ACCOUNT_SESSION_SID }, Keys.ACCOUNT_SESSION_PKEY, new TableField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SESSION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<NavigationRecord, AccountRecord> NAVIGATION__NAVIGATION_ACCOUNT_SID_FKEY = Internal.createForeignKey(Navigation.NAVIGATION, DSL.name("navigation_account_sid_fkey"), new TableField[] { Navigation.NAVIGATION.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<NavigationRecord, NavigationRecord> NAVIGATION__NAVIGATION_PARENT_NAVIGATION_SID_FKEY = Internal.createForeignKey(Navigation.NAVIGATION, DSL.name("navigation_parent_navigation_sid_fkey"), new TableField[] { Navigation.NAVIGATION.PARENT_NAVIGATION_SID }, Keys.NAVIGATION_PKEY, new TableField[] { Navigation.NAVIGATION.NAVIGATION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }
