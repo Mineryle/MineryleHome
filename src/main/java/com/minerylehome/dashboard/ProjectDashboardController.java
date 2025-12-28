@@ -32,7 +32,7 @@ public class ProjectDashboardController {
         }
 
         return jsonResponse(dashboardRepository.findMetric(userId, "summary")
-                .orElseGet(() -> new ProjectCardData(0, "No data available", "Completed:", 0)));
+                .orElseGet(() -> new ProjectCardData(0, "Due Tasks", "Completed:", 0)));
     }
 
     @GetMapping(value = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,7 +43,7 @@ public class ProjectDashboardController {
         }
 
         return jsonResponse(dashboardRepository.findMetric(userId, "overdue")
-                .orElseGet(() -> new ProjectCardData(0, "No data available", "From yesterday:", 0)));
+                .orElseGet(() -> new ProjectCardData(0, "Tasks", "From yesterday:", 0)));
     }
 
     @GetMapping(value = "/issues", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,7 +54,7 @@ public class ProjectDashboardController {
         }
 
         return jsonResponse(dashboardRepository.findMetric(userId, "issues")
-                .orElseGet(() -> new ProjectCardData(0, "No data available", "Closed today:", 0)));
+                .orElseGet(() -> new ProjectCardData(0, "Open", "Closed today:", 0)));
     }
 
     @GetMapping(value = "/features", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,7 +65,7 @@ public class ProjectDashboardController {
         }
 
         return jsonResponse(dashboardRepository.findMetric(userId, "features")
-                .orElseGet(() -> new ProjectCardData(0, "No data available", "Implemented:", 0)));
+                .orElseGet(() -> new ProjectCardData(0, "Proposals", "Implemented:", 0)));
     }
 
     @GetMapping(value = "/projects/selected", produces = MediaType.APPLICATION_JSON_VALUE)
