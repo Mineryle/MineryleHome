@@ -27,6 +27,31 @@ CREATE TABLE IF NOT EXISTS user_session_activity (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS navigation (
+    navigation_sid BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_sid BIGINT NOT NULL REFERENCES "user"(user_sid) ON DELETE CASCADE,
+    parent_navigation_sid BIGINT REFERENCES navigation(navigation_sid) ON DELETE CASCADE,
+    navigation_key TEXT NOT NULL,
+    item_id TEXT NOT NULL,
+    title TEXT,
+    subtitle TEXT,
+    type TEXT NOT NULL,
+    icon TEXT,
+    link TEXT,
+    tooltip TEXT,
+    badge_title TEXT,
+    badge_classes TEXT,
+    active BOOLEAN,
+    disabled BOOLEAN,
+    exact_match BOOLEAN,
+    sort_order INT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE INDEX IF NOT EXISTS idx_user_session_user_sid ON user_session(user_sid);
 CREATE INDEX IF NOT EXISTS idx_user_session_activity_session_sid ON user_session_activity(user_session_sid);
 CREATE INDEX IF NOT EXISTS idx_user_session_activity_created_at ON user_session_activity(created_at);
+CREATE INDEX IF NOT EXISTS idx_navigation_user_sid ON navigation(user_sid);
+CREATE INDEX IF NOT EXISTS idx_navigation_parent_sid ON navigation(parent_navigation_sid);
+CREATE INDEX IF NOT EXISTS idx_navigation_user_key ON navigation(user_sid, navigation_key);
