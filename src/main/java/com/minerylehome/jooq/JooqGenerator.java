@@ -16,7 +16,7 @@ public final class JooqGenerator {
         Configuration configuration = new Configuration()
                 .withJdbc(new Jdbc()
                         .withDriver("org.postgresql.Driver")
-                        .withUrl("jdbc:postgresql://localhost:5432/postgres")
+                        .withUrl("jdbc:postgresql://localhost:5432/minerylehome")
                         .withUser("postgres")
                         .withPassword("gcsu1234"))
                 .withGenerator(new Generator()
