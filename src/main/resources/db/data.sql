@@ -5,7 +5,7 @@ DELETE FROM account;
 
 INSERT INTO account (account_sid, email, password_hash, name, avatar, status) OVERRIDING SYSTEM VALUE
 VALUES
-    (1, 'evan.g.coyle@gmail.com', '21988c8818ec26d9686f08a05117e471b9be6ac7f514ec6123d06bab59f6e6ed', 'Evan Coyle', 'images/avatars/male-04.jpg', 'online');
+    (1, 'evan.g.coyle@gmail.com', '21988c8818ec26d9686f08a05117e471b9be6ac7f514ec6123d06bab59f6e6ed', 'Evan Coyle', 'images/avatars/Evan - IMG_0188.jpg', 'online');
 
 INSERT INTO navigation (navigation_sid, account_sid, parent_navigation_sid, navigation_key, item_id, title, subtitle, type, icon, link, tooltip, badge_title, badge_classes, active, disabled, exact_match, sort_order) OVERRIDING SYSTEM VALUE
 VALUES
