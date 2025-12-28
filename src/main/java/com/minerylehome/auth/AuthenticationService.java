@@ -21,6 +21,7 @@ public class AuthenticationService {
     }
 
     public Optional<UserRecord> findUserByEmail(String email) {
+        System.out.println("Auth lookup for email=" + email);
         Record record = dsl.select(
                         DSL.field("user_sid", Long.class),
                         DSL.field("email", String.class),
@@ -32,8 +33,10 @@ public class AuthenticationService {
                 .where(DSL.field("email").eq(email))
                 .fetchOne();
         if (record == null) {
+            System.out.println("Auth lookup failed: no user for email=" + email);
             return Optional.empty();
         }
+        System.out.println("Auth lookup success for email=" + email);
         return Optional.of(new UserRecord(
                 record.get(DSL.field("user_sid", Long.class)),
                 record.get(DSL.field("email", String.class)),
@@ -45,6 +48,7 @@ public class AuthenticationService {
 
     public boolean passwordMatches(String rawPassword, String storedHash) {
         String candidate = hashPassword(rawPassword);
+        System.out.println("Auth password check candidateHash=" + candidate + " storedHash=" + storedHash);
         return MessageDigest.isEqual(
                 candidate.getBytes(StandardCharsets.UTF_8),
                 storedHash.getBytes(StandardCharsets.UTF_8));
