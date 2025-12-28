@@ -1,3 +1,7 @@
+DELETE FROM schedule_component;
+DELETE FROM task_distribution_component;
+DELETE FROM github_metrics_component;
+DELETE FROM metrics;
 DELETE FROM account_session_activity;
 DELETE FROM account_session;
 DELETE FROM navigation;
@@ -10,6 +14,122 @@ VALUES
 INSERT INTO account (account_sid, email, password_hash, name, avatar, status) OVERRIDING SYSTEM VALUE
 VALUES
     (2, 'ecoyle@medistreams.com', '21988c8818ec26d9686f08a05117e471b9be6ac7f514ec6123d06bab59f6e6ed', 'Demo Acct', 'images/avatars/Evan - IMG_0188.jpg', 'online');
+
+INSERT INTO metrics (metrics_sid, account_sid, metric_key, value, label, secondary_label, secondary_value) OVERRIDING SYSTEM VALUE
+VALUES
+    (1, 1, 'summary', 21, 'Due Tasks', 'Completed:', 13),
+    (2, 1, 'overdue', 17, 'Tasks', 'From yesterday:', 9),
+    (3, 1, 'issues', 24, 'Open', 'Closed today:', 19),
+    (4, 1, 'features', 38, 'Proposals', 'Implemented:', 16);
+
+INSERT INTO github_metrics_component (
+    github_metrics_component_sid,
+    account_sid,
+    overview_this_week_new_issues,
+    overview_this_week_closed_issues,
+    overview_this_week_fixed,
+    overview_this_week_wont_fix,
+    overview_this_week_re_opened,
+    overview_this_week_needs_triage,
+    overview_last_week_new_issues,
+    overview_last_week_closed_issues,
+    overview_last_week_fixed,
+    overview_last_week_wont_fix,
+    overview_last_week_re_opened,
+    overview_last_week_needs_triage,
+    labels,
+    this_week_new_issues_name,
+    this_week_new_issues_type,
+    this_week_new_issues_data,
+    this_week_closed_issues_name,
+    this_week_closed_issues_type,
+    this_week_closed_issues_data,
+    last_week_new_issues_name,
+    last_week_new_issues_type,
+    last_week_new_issues_data,
+    last_week_closed_issues_name,
+    last_week_closed_issues_type,
+    last_week_closed_issues_data
+) OVERRIDING SYSTEM VALUE
+VALUES
+    (
+        1,
+        1,
+        214,
+        75,
+        3,
+        4,
+        8,
+        6,
+        197,
+        72,
+        6,
+        11,
+        6,
+        5,
+        ARRAY['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        'New issues',
+        'line',
+        ARRAY[42, 28, 43, 34, 20, 25, 22],
+        'Closed issues',
+        'column',
+        ARRAY[11, 10, 8, 11, 8, 10, 17],
+        'New issues',
+        'line',
+        ARRAY[37, 32, 39, 27, 18, 24, 20],
+        'Closed issues',
+        'column',
+        ARRAY[9, 8, 10, 12, 7, 11, 15]
+    );
+
+INSERT INTO task_distribution_component (
+    task_distribution_component_sid,
+    account_sid,
+    overview_this_week_new,
+    overview_this_week_completed,
+    overview_last_week_new,
+    overview_last_week_completed,
+    labels,
+    this_week_series,
+    last_week_series
+) OVERRIDING SYSTEM VALUE
+VALUES
+    (
+        1,
+        1,
+        594,
+        287,
+        526,
+        260,
+        ARRAY['API', 'Backend', 'Frontend', 'Issues'],
+        ARRAY[15, 20, 38, 27],
+        ARRAY[19, 16, 42, 23]
+    );
+
+INSERT INTO schedule_component (schedule_component_sid, account_sid, today, tomorrow) OVERRIDING SYSTEM VALUE
+VALUES
+    (
+        1,
+        1,
+        '[
+            {"title":"Group Meeting","time":"in 32 minutes","location":"Conference room 1B"},
+            {"title":"Coffee Break","time":"10:30 AM","location":null},
+            {"title":"Public Beta Release","time":"11:00 AM","location":null},
+            {"title":"Lunch","time":"12:10 PM","location":null},
+            {"title":"Dinner with David","time":"05:30 PM","location":"Magnolia"},
+            {"title":"Jane''s Birthday Party","time":"07:30 PM","location":"Home"},
+            {"title":"Overseer''s Retirement Party","time":"09:30 PM","location":"Overseer''s room"}
+        ]'::jsonb,
+        '[
+            {"title":"Marketing Meeting","time":"09:00 AM","location":"Conference room 1A"},
+            {"title":"Public Announcement","time":"11:00 AM","location":null},
+            {"title":"Lunch","time":"12:10 PM","location":null},
+            {"title":"Meeting with Beta Testers","time":"03:00 PM","location":"Conference room 2C"},
+            {"title":"Live Stream","time":"05:30 PM","location":null},
+            {"title":"Release Party","time":"07:30 PM","location":"CEO''s house"},
+            {"title":"CEO''s Private Party","time":"09:30 PM","location":"CEO''s Penthouse"}
+        ]'::jsonb
+    );
 
 
 
