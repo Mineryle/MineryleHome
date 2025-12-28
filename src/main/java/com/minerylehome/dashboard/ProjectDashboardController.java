@@ -2,40 +2,70 @@ package com.minerylehome.dashboard;
 
 import com.google.gson.Gson;
 
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.minerylehome.auth.AuthSessionAttributes;
+
 @RestController
 @RequestMapping("/api/dashboards/project")
 public class ProjectDashboardController {
 
+    private final ProjectDashboardRepository dashboardRepository;
     private final Gson gson = new Gson();
 
+    public ProjectDashboardController(ProjectDashboardRepository dashboardRepository) {
+        this.dashboardRepository = dashboardRepository;
+    }
+
     @GetMapping(value = "/summary", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getSummaryCard() {
-        ProjectCardData payload = new ProjectCardData(21, "Due Tasks", "Completed:", 13);
-        return jsonResponse(payload);
+    public ResponseEntity<String> getSummaryCard(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findMetric(userId, "summary")
+                .orElseGet(() -> new ProjectCardData(0, "Due Tasks", "Completed:", 0)));
     }
 
     @GetMapping(value = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getOverdueCard() {
-        ProjectCardData payload = new ProjectCardData(17, "Tasks", "From yesterday:", 9);
-        return jsonResponse(payload);
+    public ResponseEntity<String> getOverdueCard(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findMetric(userId, "overdue")
+                .orElseGet(() -> new ProjectCardData(0, "Tasks", "From yesterday:", 0)));
     }
 
     @GetMapping(value = "/issues", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getIssuesCard() {
-        ProjectCardData payload = new ProjectCardData(24, "Open", "Closed today:", 19);
-        return jsonResponse(payload);
+    public ResponseEntity<String> getIssuesCard(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findMetric(userId, "issues")
+                .orElseGet(() -> new ProjectCardData(0, "Open", "Closed today:", 0)));
     }
 
     @GetMapping(value = "/features", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getFeaturesCard() {
-        ProjectCardData payload = new ProjectCardData(38, "Proposals", "Implemented:", 16);
-        return jsonResponse(payload);
+    public ResponseEntity<String> getFeaturesCard(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findMetric(userId, "features")
+                .orElseGet(() -> new ProjectCardData(0, "Proposals", "Implemented:", 0)));
     }
 
     @GetMapping(value = "/projects/selected", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,65 +86,75 @@ public class ProjectDashboardController {
     }
 
     @GetMapping(value = "/github-issues", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getGithubIssues() {
-        GithubIssuesData payload = new GithubIssuesData(
-                new GithubIssuesOverview(
-                        new IssueBreakdown(214, 75, 3, 4, 8, 6),
-                        new IssueBreakdown(197, 72, 6, 11, 6, 5)),
-                new String[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" },
-                new GithubIssuesSeries(
-                        new IssueSeries[] {
-                                new IssueSeries("New issues", "line", new int[] { 42, 28, 43, 34, 20, 25, 22 }),
-                                new IssueSeries("Closed issues", "column", new int[] { 11, 10, 8, 11, 8, 10, 17 })
-                        },
-                        new IssueSeries[] {
-                                new IssueSeries("New issues", "line", new int[] { 37, 32, 39, 27, 18, 24, 20 }),
-                                new IssueSeries("Closed issues", "column", new int[] { 9, 8, 10, 12, 7, 11, 15 })
-                        }));
-        return jsonResponse(payload);
+    public ResponseEntity<String> getGithubIssues(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findGithubIssues(userId)
+                .orElseGet(this::emptyGithubIssues));
     }
 
     @GetMapping(value = "/task-distribution", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getTaskDistribution() {
-        TaskDistributionData payload = new TaskDistributionData(
-                new TaskDistributionOverview(
-                        new TaskDistributionTotals(594, 287),
-                        new TaskDistributionTotals(526, 260)),
-                new String[] { "API", "Backend", "Frontend", "Issues" },
-                new TaskDistributionSeries(
-                        new int[] { 15, 20, 38, 27 },
-                        new int[] { 19, 16, 42, 23 }));
-        return jsonResponse(payload);
+    public ResponseEntity<String> getTaskDistribution(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findTaskDistribution(userId)
+                .orElseGet(this::emptyTaskDistribution));
     }
 
     @GetMapping(value = "/schedule", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getSchedule() {
-        ScheduleData payload = new ScheduleData(
-                new ScheduleItem[] {
-                        new ScheduleItem("Group Meeting", "in 32 minutes", "Conference room 1B"),
-                        new ScheduleItem("Coffee Break", "10:30 AM", null),
-                        new ScheduleItem("Public Beta Release", "11:00 AM", null),
-                        new ScheduleItem("Lunch", "12:10 PM", null),
-                        new ScheduleItem("Dinner with David", "05:30 PM", "Magnolia"),
-                        new ScheduleItem("Jane's Birthday Party", "07:30 PM", "Home"),
-                        new ScheduleItem("Overseer's Retirement Party", "09:30 PM", "Overseer's room")
-                },
-                new ScheduleItem[] {
-                        new ScheduleItem("Marketing Meeting", "09:00 AM", "Conference room 1A"),
-                        new ScheduleItem("Public Announcement", "11:00 AM", null),
-                        new ScheduleItem("Lunch", "12:10 PM", null),
-                        new ScheduleItem("Meeting with Beta Testers", "03:00 PM", "Conference room 2C"),
-                        new ScheduleItem("Live Stream", "05:30 PM", null),
-                        new ScheduleItem("Release Party", "07:30 PM", "CEO's house"),
-                        new ScheduleItem("CEO's Private Party", "09:30 PM", "CEO's Penthouse")
-                });
-        return jsonResponse(payload);
+    public ResponseEntity<String> getSchedule(HttpSession session) {
+        Long userId = getUserId(session);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return jsonResponse(dashboardRepository.findSchedule(userId)
+                .orElseGet(this::emptySchedule));
     }
 
     private ResponseEntity<String> jsonResponse(Object payload) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(gson.toJson(payload));
+    }
+
+    private Long getUserId(HttpSession session) {
+        Object id = session.getAttribute(AuthSessionAttributes.USER_ID);
+        if (id instanceof Long userId) {
+            return userId;
+        }
+        return null;
+    }
+
+    private GithubIssuesData emptyGithubIssues() {
+        IssueBreakdown emptyBreakdown = new IssueBreakdown(0, 0, 0, 0, 0, 0);
+        IssueSeries[] emptySeries = new IssueSeries[] {
+                new IssueSeries("No data available", "line", new int[0]),
+                new IssueSeries("No data available", "column", new int[0])
+        };
+        return new GithubIssuesData(
+                new GithubIssuesOverview(emptyBreakdown, emptyBreakdown),
+                new String[0],
+                new GithubIssuesSeries(emptySeries, emptySeries));
+    }
+
+    private TaskDistributionData emptyTaskDistribution() {
+        TaskDistributionTotals emptyTotals = new TaskDistributionTotals(0, 0);
+        return new TaskDistributionData(
+                new TaskDistributionOverview(emptyTotals, emptyTotals),
+                new String[0],
+                new TaskDistributionSeries(new int[0], new int[0]));
+    }
+
+    private ScheduleData emptySchedule() {
+        ScheduleItem emptyItem = new ScheduleItem("No data available", "", null);
+        return new ScheduleData(new ScheduleItem[] { emptyItem }, new ScheduleItem[] { emptyItem });
     }
 
     public record ProjectCardData(
