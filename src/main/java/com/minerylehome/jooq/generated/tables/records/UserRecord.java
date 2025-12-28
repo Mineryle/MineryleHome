@@ -21,112 +21,112 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>public.user.user_sid</code>.
+     * Setter for <code>public.users.user_sid</code>.
      */
     public void setUserSid(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>public.user.user_sid</code>.
+     * Getter for <code>public.users.user_sid</code>.
      */
     public Long getUserSid() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>public.user.email</code>.
+     * Setter for <code>public.users.email</code>.
      */
     public void setEmail(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.user.email</code>.
+     * Getter for <code>public.users.email</code>.
      */
     public String getEmail() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>public.user.password_hash</code>.
+     * Setter for <code>public.users.password_hash</code>.
      */
     public void setPasswordHash(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.user.password_hash</code>.
+     * Getter for <code>public.users.password_hash</code>.
      */
     public String getPasswordHash() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>public.user.name</code>.
+     * Setter for <code>public.users.name</code>.
      */
     public void setName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>public.user.name</code>.
+     * Getter for <code>public.users.name</code>.
      */
     public String getName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>public.user.avatar</code>.
+     * Setter for <code>public.users.avatar</code>.
      */
     public void setAvatar(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>public.user.avatar</code>.
+     * Getter for <code>public.users.avatar</code>.
      */
     public String getAvatar() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>public.user.status</code>.
+     * Setter for <code>public.users.status</code>.
      */
     public void setStatus(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>public.user.status</code>.
+     * Getter for <code>public.users.status</code>.
      */
     public String getStatus() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>public.user.created_at</code>.
+     * Setter for <code>public.users.created_at</code>.
      */
     public void setCreatedAt(OffsetDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>public.user.created_at</code>.
+     * Getter for <code>public.users.created_at</code>.
      */
     public OffsetDateTime getCreatedAt() {
         return (OffsetDateTime) get(6);
     }
 
     /**
-     * Setter for <code>public.user.updated_at</code>.
+     * Setter for <code>public.users.updated_at</code>.
      */
     public void setUpdatedAt(OffsetDateTime value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>public.user.updated_at</code>.
+     * Getter for <code>public.users.updated_at</code>.
      */
     public OffsetDateTime getUpdatedAt() {
         return (OffsetDateTime) get(7);

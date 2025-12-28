@@ -23,7 +23,7 @@ public class UserRepository {
                         DSL.field("email", String.class),
                         DSL.field("avatar", String.class),
                         DSL.field("status", String.class))
-                .from(DSL.table(DSL.name("user")))
+                .from(DSL.table(DSL.name("users")))
                 .where(DSL.field("user_sid").eq(userId))
                 .fetchOne();
         if (record == null) {
@@ -38,7 +38,7 @@ public class UserRepository {
     }
 
     public UserController.UserProfile updateUserProfile(long userId, UserController.UserProfile profile) {
-        dsl.update(DSL.table(DSL.name("user")))
+        dsl.update(DSL.table(DSL.name("users")))
                 .set(DSL.field("name"), profile.name())
                 .set(DSL.field("email"), profile.email())
                 .set(DSL.field("avatar"), profile.avatar())

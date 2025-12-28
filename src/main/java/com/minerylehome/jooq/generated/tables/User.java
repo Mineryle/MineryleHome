@@ -46,7 +46,7 @@ public class User extends TableImpl<UserRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>public.user</code>
+     * The reference instance of <code>public.users</code>
      */
     public static final User USER = new User();
 
@@ -59,42 +59,42 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * The column <code>public.user.user_sid</code>.
+     * The column <code>public.users.user_sid</code>.
      */
     public final TableField<UserRecord, Long> USER_SID = createField(DSL.name("user_sid"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.user.email</code>.
+     * The column <code>public.users.email</code>.
      */
     public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.user.password_hash</code>.
+     * The column <code>public.users.password_hash</code>.
      */
     public final TableField<UserRecord, String> PASSWORD_HASH = createField(DSL.name("password_hash"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.user.name</code>.
+     * The column <code>public.users.name</code>.
      */
     public final TableField<UserRecord, String> NAME = createField(DSL.name("name"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.user.avatar</code>.
+     * The column <code>public.users.avatar</code>.
      */
     public final TableField<UserRecord, String> AVATAR = createField(DSL.name("avatar"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>public.user.status</code>.
+     * The column <code>public.users.status</code>.
      */
     public final TableField<UserRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>public.user.created_at</code>.
+     * The column <code>public.users.created_at</code>.
      */
     public final TableField<UserRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
     /**
-     * The column <code>public.user.updated_at</code>.
+     * The column <code>public.users.updated_at</code>.
      */
     public final TableField<UserRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -107,24 +107,24 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * Create an aliased <code>public.user</code> table reference
+     * Create an aliased <code>public.users</code> table reference
      */
     public User(String alias) {
         this(DSL.name(alias), USER);
     }
 
     /**
-     * Create an aliased <code>public.user</code> table reference
+     * Create an aliased <code>public.users</code> table reference
      */
     public User(Name alias) {
         this(alias, USER);
     }
 
     /**
-     * Create a <code>public.user</code> table reference
+     * Create a <code>public.users</code> table reference
      */
     public User() {
-        this(DSL.name("user"), null);
+        this(DSL.name("users"), null);
     }
 
     public <O extends Record> User(Table<O> path, ForeignKey<O, UserRecord> childPath, InverseForeignKey<O, UserRecord> parentPath) {
@@ -184,7 +184,7 @@ public class User extends TableImpl<UserRecord> {
 
     /**
      * Get the implicit to-many join path to the
-     * <code>public.user_session</code> table
+     * <code>public.users_session</code> table
      */
     public UserSessionPath userSession() {
         if (_userSession == null)

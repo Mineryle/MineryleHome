@@ -32,14 +32,14 @@ public class Keys {
 
     public static final UniqueKey<UserRecord> USER_EMAIL_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), new TableField[] { User.USER.EMAIL }, true);
     public static final UniqueKey<UserRecord> USER_PKEY = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), new TableField[] { User.USER.USER_SID }, true);
-    public static final UniqueKey<UserSessionRecord> USER_SESSION_PKEY = Internal.createUniqueKey(UserSession.USER_SESSION, DSL.name("user_session_pkey"), new TableField[] { UserSession.USER_SESSION.USER_SESSION_SID }, true);
-    public static final UniqueKey<UserSessionRecord> USER_SESSION_SESSION_ID_KEY = Internal.createUniqueKey(UserSession.USER_SESSION, DSL.name("user_session_session_id_key"), new TableField[] { UserSession.USER_SESSION.SESSION_ID }, true);
-    public static final UniqueKey<UserSessionActivityRecord> USER_SESSION_ACTIVITY_PKEY = Internal.createUniqueKey(UserSessionActivity.USER_SESSION_ACTIVITY, DSL.name("user_session_activity_pkey"), new TableField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_ACTIVITY_SID }, true);
+    public static final UniqueKey<UserSessionRecord> USER_SESSION_PKEY = Internal.createUniqueKey(UserSession.USER_SESSION, DSL.name("users_session_pkey"), new TableField[] { UserSession.USER_SESSION.USER_SESSION_SID }, true);
+    public static final UniqueKey<UserSessionRecord> USER_SESSION_SESSION_ID_KEY = Internal.createUniqueKey(UserSession.USER_SESSION, DSL.name("users_session_session_id_key"), new TableField[] { UserSession.USER_SESSION.SESSION_ID }, true);
+    public static final UniqueKey<UserSessionActivityRecord> USER_SESSION_ACTIVITY_PKEY = Internal.createUniqueKey(UserSessionActivity.USER_SESSION_ACTIVITY, DSL.name("users_session_activity_pkey"), new TableField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_ACTIVITY_SID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<UserSessionRecord, UserRecord> USER_SESSION__USER_SESSION_USER_SID_FKEY = Internal.createForeignKey(UserSession.USER_SESSION, DSL.name("user_session_user_sid_fkey"), new TableField[] { UserSession.USER_SESSION.USER_SID }, Keys.USER_PKEY, new TableField[] { User.USER.USER_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
-    public static final ForeignKey<UserSessionActivityRecord, UserSessionRecord> USER_SESSION_ACTIVITY__USER_SESSION_ACTIVITY_USER_SESSION_SID_FKEY = Internal.createForeignKey(UserSessionActivity.USER_SESSION_ACTIVITY, DSL.name("user_session_activity_user_session_sid_fkey"), new TableField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_SID }, Keys.USER_SESSION_PKEY, new TableField[] { UserSession.USER_SESSION.USER_SESSION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<UserSessionRecord, UserRecord> USER_SESSION__USER_SESSION_USER_SID_FKEY = Internal.createForeignKey(UserSession.USER_SESSION, DSL.name("users_session_user_sid_fkey"), new TableField[] { UserSession.USER_SESSION.USER_SID }, Keys.USER_PKEY, new TableField[] { User.USER.USER_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<UserSessionActivityRecord, UserSessionRecord> USER_SESSION_ACTIVITY__USER_SESSION_ACTIVITY_USER_SESSION_SID_FKEY = Internal.createForeignKey(UserSessionActivity.USER_SESSION_ACTIVITY, DSL.name("users_session_activity_users_session_sid_fkey"), new TableField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_SID }, Keys.USER_SESSION_PKEY, new TableField[] { UserSession.USER_SESSION.USER_SESSION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }

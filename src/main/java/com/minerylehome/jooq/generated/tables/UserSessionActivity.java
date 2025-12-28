@@ -48,7 +48,7 @@ public class UserSessionActivity extends TableImpl<UserSessionActivityRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>public.user_session_activity</code>
+     * The reference instance of <code>public.users_session_activity</code>
      */
     public static final UserSessionActivity USER_SESSION_ACTIVITY = new UserSessionActivity();
 
@@ -62,32 +62,32 @@ public class UserSessionActivity extends TableImpl<UserSessionActivityRecord> {
 
     /**
      * The column
-     * <code>public.user_session_activity.user_session_activity_sid</code>.
+     * <code>public.users_session_activity.users_session_activity_sid</code>.
      */
-    public final TableField<UserSessionActivityRecord, Long> USER_SESSION_ACTIVITY_SID = createField(DSL.name("user_session_activity_sid"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserSessionActivityRecord, Long> USER_SESSION_ACTIVITY_SID = createField(DSL.name("users_session_activity_sid"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.user_session_activity.user_session_sid</code>.
+     * The column <code>public.users_session_activity.users_session_sid</code>.
      */
-    public final TableField<UserSessionActivityRecord, Long> USER_SESSION_SID = createField(DSL.name("user_session_sid"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UserSessionActivityRecord, Long> USER_SESSION_SID = createField(DSL.name("users_session_sid"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>public.user_session_activity.request_method</code>.
+     * The column <code>public.users_session_activity.request_method</code>.
      */
     public final TableField<UserSessionActivityRecord, String> REQUEST_METHOD = createField(DSL.name("request_method"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.user_session_activity.request_path</code>.
+     * The column <code>public.users_session_activity.request_path</code>.
      */
     public final TableField<UserSessionActivityRecord, String> REQUEST_PATH = createField(DSL.name("request_path"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.user_session_activity.response_status</code>.
+     * The column <code>public.users_session_activity.response_status</code>.
      */
     public final TableField<UserSessionActivityRecord, Integer> RESPONSE_STATUS = createField(DSL.name("response_status"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>public.user_session_activity.created_at</code>.
+     * The column <code>public.users_session_activity.created_at</code>.
      */
     public final TableField<UserSessionActivityRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
@@ -100,7 +100,7 @@ public class UserSessionActivity extends TableImpl<UserSessionActivityRecord> {
     }
 
     /**
-     * Create an aliased <code>public.user_session_activity</code> table
+     * Create an aliased <code>public.users_session_activity</code> table
      * reference
      */
     public UserSessionActivity(String alias) {
@@ -108,7 +108,7 @@ public class UserSessionActivity extends TableImpl<UserSessionActivityRecord> {
     }
 
     /**
-     * Create an aliased <code>public.user_session_activity</code> table
+     * Create an aliased <code>public.users_session_activity</code> table
      * reference
      */
     public UserSessionActivity(Name alias) {
@@ -116,10 +116,10 @@ public class UserSessionActivity extends TableImpl<UserSessionActivityRecord> {
     }
 
     /**
-     * Create a <code>public.user_session_activity</code> table reference
+     * Create a <code>public.users_session_activity</code> table reference
      */
     public UserSessionActivity() {
-        this(DSL.name("user_session_activity"), null);
+        this(DSL.name("users_session_activity"), null);
     }
 
     public <O extends Record> UserSessionActivity(Table<O> path, ForeignKey<O, UserSessionActivityRecord> childPath, InverseForeignKey<O, UserSessionActivityRecord> parentPath) {
@@ -183,7 +183,7 @@ public class UserSessionActivity extends TableImpl<UserSessionActivityRecord> {
     private transient UserSessionPath _userSession;
 
     /**
-     * Get the implicit join path to the <code>public.user_session</code> table.
+     * Get the implicit join path to the <code>public.users_session</code> table.
      */
     public UserSessionPath userSession() {
         if (_userSession == null)

@@ -16,17 +16,17 @@ import com.minerylehome.jooq.generated.tables.UserSessionActivity;
 public class Tables {
 
     /**
-     * The table <code>public.user</code>.
+     * The table <code>public.users</code>.
      */
     public static final User USER = User.USER;
 
     /**
-     * The table <code>public.user_session</code>.
+     * The table <code>public.users_session</code>.
      */
     public static final UserSession USER_SESSION = UserSession.USER_SESSION;
 
     /**
-     * The table <code>public.user_session_activity</code>.
+     * The table <code>public.users_session_activity</code>.
      */
     public static final UserSessionActivity USER_SESSION_ACTIVITY = UserSessionActivity.USER_SESSION_ACTIVITY;
 }
