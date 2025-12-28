@@ -7,7 +7,11 @@ package com.minerylehome.jooq.generated;
 import com.minerylehome.jooq.generated.tables.Account;
 import com.minerylehome.jooq.generated.tables.AccountSession;
 import com.minerylehome.jooq.generated.tables.AccountSessionActivity;
+import com.minerylehome.jooq.generated.tables.GithubMetricsComponent;
+import com.minerylehome.jooq.generated.tables.Metrics;
 import com.minerylehome.jooq.generated.tables.Navigation;
+import com.minerylehome.jooq.generated.tables.ScheduleComponent;
+import com.minerylehome.jooq.generated.tables.TaskDistributionComponent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,9 +51,29 @@ public class Public extends SchemaImpl {
     public final AccountSessionActivity ACCOUNT_SESSION_ACTIVITY = AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY;
 
     /**
+     * The table <code>public.github_metrics_component</code>.
+     */
+    public final GithubMetricsComponent GITHUB_METRICS_COMPONENT = GithubMetricsComponent.GITHUB_METRICS_COMPONENT;
+
+    /**
+     * The table <code>public.metrics</code>.
+     */
+    public final Metrics METRICS = Metrics.METRICS;
+
+    /**
      * The table <code>public.navigation</code>.
      */
     public final Navigation NAVIGATION = Navigation.NAVIGATION;
+
+    /**
+     * The table <code>public.schedule_component</code>.
+     */
+    public final ScheduleComponent SCHEDULE_COMPONENT = ScheduleComponent.SCHEDULE_COMPONENT;
+
+    /**
+     * The table <code>public.task_distribution_component</code>.
+     */
+    public final TaskDistributionComponent TASK_DISTRIBUTION_COMPONENT = TaskDistributionComponent.TASK_DISTRIBUTION_COMPONENT;
 
     /**
      * No further instances allowed
@@ -70,7 +94,11 @@ public class Public extends SchemaImpl {
             Account.ACCOUNT,
             AccountSession.ACCOUNT_SESSION,
             AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY,
-            Navigation.NAVIGATION
+            GithubMetricsComponent.GITHUB_METRICS_COMPONENT,
+            Metrics.METRICS,
+            Navigation.NAVIGATION,
+            ScheduleComponent.SCHEDULE_COMPONENT,
+            TaskDistributionComponent.TASK_DISTRIBUTION_COMPONENT
         );
     }
 }

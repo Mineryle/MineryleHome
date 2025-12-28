@@ -7,7 +7,11 @@ package com.minerylehome.jooq.generated.tables;
 import com.minerylehome.jooq.generated.Keys;
 import com.minerylehome.jooq.generated.Public;
 import com.minerylehome.jooq.generated.tables.AccountSession.AccountSessionPath;
+import com.minerylehome.jooq.generated.tables.GithubMetricsComponent.GithubMetricsComponentPath;
+import com.minerylehome.jooq.generated.tables.Metrics.MetricsPath;
 import com.minerylehome.jooq.generated.tables.Navigation.NavigationPath;
+import com.minerylehome.jooq.generated.tables.ScheduleComponent.ScheduleComponentPath;
+import com.minerylehome.jooq.generated.tables.TaskDistributionComponent.TaskDistributionComponentPath;
 import com.minerylehome.jooq.generated.tables.records.AccountRecord;
 
 import java.time.OffsetDateTime;
@@ -194,6 +198,32 @@ public class Account extends TableImpl<AccountRecord> {
         return _accountSession;
     }
 
+    private transient GithubMetricsComponentPath _githubMetricsComponent;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.github_metrics_component</code> table
+     */
+    public GithubMetricsComponentPath githubMetricsComponent() {
+        if (_githubMetricsComponent == null)
+            _githubMetricsComponent = new GithubMetricsComponentPath(this, null, Keys.GITHUB_METRICS_COMPONENT__GITHUB_METRICS_COMPONENT_ACCOUNT_SID_FKEY.getInverseKey());
+
+        return _githubMetricsComponent;
+    }
+
+    private transient MetricsPath _metrics;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.metrics</code>
+     * table
+     */
+    public MetricsPath metrics() {
+        if (_metrics == null)
+            _metrics = new MetricsPath(this, null, Keys.METRICS__METRICS_ACCOUNT_SID_FKEY.getInverseKey());
+
+        return _metrics;
+    }
+
     private transient NavigationPath _navigation;
 
     /**
@@ -205,6 +235,32 @@ public class Account extends TableImpl<AccountRecord> {
             _navigation = new NavigationPath(this, null, Keys.NAVIGATION__NAVIGATION_ACCOUNT_SID_FKEY.getInverseKey());
 
         return _navigation;
+    }
+
+    private transient ScheduleComponentPath _scheduleComponent;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.schedule_component</code> table
+     */
+    public ScheduleComponentPath scheduleComponent() {
+        if (_scheduleComponent == null)
+            _scheduleComponent = new ScheduleComponentPath(this, null, Keys.SCHEDULE_COMPONENT__SCHEDULE_COMPONENT_ACCOUNT_SID_FKEY.getInverseKey());
+
+        return _scheduleComponent;
+    }
+
+    private transient TaskDistributionComponentPath _taskDistributionComponent;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.task_distribution_component</code> table
+     */
+    public TaskDistributionComponentPath taskDistributionComponent() {
+        if (_taskDistributionComponent == null)
+            _taskDistributionComponent = new TaskDistributionComponentPath(this, null, Keys.TASK_DISTRIBUTION_COMPONENT__TASK_DISTRIBUTION_COMPONENT_ACCOUNT_SID_FKEY.getInverseKey());
+
+        return _taskDistributionComponent;
     }
 
     @Override

@@ -7,11 +7,19 @@ package com.minerylehome.jooq.generated;
 import com.minerylehome.jooq.generated.tables.Account;
 import com.minerylehome.jooq.generated.tables.AccountSession;
 import com.minerylehome.jooq.generated.tables.AccountSessionActivity;
+import com.minerylehome.jooq.generated.tables.GithubMetricsComponent;
+import com.minerylehome.jooq.generated.tables.Metrics;
 import com.minerylehome.jooq.generated.tables.Navigation;
+import com.minerylehome.jooq.generated.tables.ScheduleComponent;
+import com.minerylehome.jooq.generated.tables.TaskDistributionComponent;
 import com.minerylehome.jooq.generated.tables.records.AccountRecord;
 import com.minerylehome.jooq.generated.tables.records.AccountSessionActivityRecord;
 import com.minerylehome.jooq.generated.tables.records.AccountSessionRecord;
+import com.minerylehome.jooq.generated.tables.records.GithubMetricsComponentRecord;
+import com.minerylehome.jooq.generated.tables.records.MetricsRecord;
 import com.minerylehome.jooq.generated.tables.records.NavigationRecord;
+import com.minerylehome.jooq.generated.tables.records.ScheduleComponentRecord;
+import com.minerylehome.jooq.generated.tables.records.TaskDistributionComponentRecord;
 
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
@@ -37,7 +45,11 @@ public class Keys {
     public static final UniqueKey<AccountSessionRecord> ACCOUNT_SESSION_PKEY = Internal.createUniqueKey(AccountSession.ACCOUNT_SESSION, DSL.name("account_session_pkey"), new TableField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SESSION_SID }, true);
     public static final UniqueKey<AccountSessionRecord> ACCOUNT_SESSION_SESSION_ID_KEY = Internal.createUniqueKey(AccountSession.ACCOUNT_SESSION, DSL.name("account_session_session_id_key"), new TableField[] { AccountSession.ACCOUNT_SESSION.SESSION_ID }, true);
     public static final UniqueKey<AccountSessionActivityRecord> ACCOUNT_SESSION_ACTIVITY_PKEY = Internal.createUniqueKey(AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY, DSL.name("account_session_activity_pkey"), new TableField[] { AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY.ACCOUNT_SESSION_ACTIVITY_SID }, true);
+    public static final UniqueKey<GithubMetricsComponentRecord> GITHUB_METRICS_COMPONENT_PKEY = Internal.createUniqueKey(GithubMetricsComponent.GITHUB_METRICS_COMPONENT, DSL.name("github_metrics_component_pkey"), new TableField[] { GithubMetricsComponent.GITHUB_METRICS_COMPONENT.GITHUB_METRICS_COMPONENT_SID }, true);
+    public static final UniqueKey<MetricsRecord> METRICS_PKEY = Internal.createUniqueKey(Metrics.METRICS, DSL.name("metrics_pkey"), new TableField[] { Metrics.METRICS.METRICS_SID }, true);
     public static final UniqueKey<NavigationRecord> NAVIGATION_PKEY = Internal.createUniqueKey(Navigation.NAVIGATION, DSL.name("navigation_pkey"), new TableField[] { Navigation.NAVIGATION.NAVIGATION_SID }, true);
+    public static final UniqueKey<ScheduleComponentRecord> SCHEDULE_COMPONENT_PKEY = Internal.createUniqueKey(ScheduleComponent.SCHEDULE_COMPONENT, DSL.name("schedule_component_pkey"), new TableField[] { ScheduleComponent.SCHEDULE_COMPONENT.SCHEDULE_COMPONENT_SID }, true);
+    public static final UniqueKey<TaskDistributionComponentRecord> TASK_DISTRIBUTION_COMPONENT_PKEY = Internal.createUniqueKey(TaskDistributionComponent.TASK_DISTRIBUTION_COMPONENT, DSL.name("task_distribution_component_pkey"), new TableField[] { TaskDistributionComponent.TASK_DISTRIBUTION_COMPONENT.TASK_DISTRIBUTION_COMPONENT_SID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -45,6 +57,10 @@ public class Keys {
 
     public static final ForeignKey<AccountSessionRecord, AccountRecord> ACCOUNT_SESSION__ACCOUNT_SESSION_ACCOUNT_SID_FKEY = Internal.createForeignKey(AccountSession.ACCOUNT_SESSION, DSL.name("account_session_account_sid_fkey"), new TableField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<AccountSessionActivityRecord, AccountSessionRecord> ACCOUNT_SESSION_ACTIVITY__ACCOUNT_SESSION_ACTIVITY_ACCOUNT_SESSION_SID_FKEY = Internal.createForeignKey(AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY, DSL.name("account_session_activity_account_session_sid_fkey"), new TableField[] { AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY.ACCOUNT_SESSION_SID }, Keys.ACCOUNT_SESSION_PKEY, new TableField[] { AccountSession.ACCOUNT_SESSION.ACCOUNT_SESSION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<GithubMetricsComponentRecord, AccountRecord> GITHUB_METRICS_COMPONENT__GITHUB_METRICS_COMPONENT_ACCOUNT_SID_FKEY = Internal.createForeignKey(GithubMetricsComponent.GITHUB_METRICS_COMPONENT, DSL.name("github_metrics_component_account_sid_fkey"), new TableField[] { GithubMetricsComponent.GITHUB_METRICS_COMPONENT.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<MetricsRecord, AccountRecord> METRICS__METRICS_ACCOUNT_SID_FKEY = Internal.createForeignKey(Metrics.METRICS, DSL.name("metrics_account_sid_fkey"), new TableField[] { Metrics.METRICS.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<NavigationRecord, AccountRecord> NAVIGATION__NAVIGATION_ACCOUNT_SID_FKEY = Internal.createForeignKey(Navigation.NAVIGATION, DSL.name("navigation_account_sid_fkey"), new TableField[] { Navigation.NAVIGATION.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<NavigationRecord, NavigationRecord> NAVIGATION__NAVIGATION_PARENT_NAVIGATION_SID_FKEY = Internal.createForeignKey(Navigation.NAVIGATION, DSL.name("navigation_parent_navigation_sid_fkey"), new TableField[] { Navigation.NAVIGATION.PARENT_NAVIGATION_SID }, Keys.NAVIGATION_PKEY, new TableField[] { Navigation.NAVIGATION.NAVIGATION_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<ScheduleComponentRecord, AccountRecord> SCHEDULE_COMPONENT__SCHEDULE_COMPONENT_ACCOUNT_SID_FKEY = Internal.createForeignKey(ScheduleComponent.SCHEDULE_COMPONENT, DSL.name("schedule_component_account_sid_fkey"), new TableField[] { ScheduleComponent.SCHEDULE_COMPONENT.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<TaskDistributionComponentRecord, AccountRecord> TASK_DISTRIBUTION_COMPONENT__TASK_DISTRIBUTION_COMPONENT_ACCOUNT_SID_FKEY = Internal.createForeignKey(TaskDistributionComponent.TASK_DISTRIBUTION_COMPONENT, DSL.name("task_distribution_component_account_sid_fkey"), new TableField[] { TaskDistributionComponent.TASK_DISTRIBUTION_COMPONENT.ACCOUNT_SID }, Keys.ACCOUNT_PKEY, new TableField[] { Account.ACCOUNT.ACCOUNT_SID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }
