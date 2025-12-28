@@ -4,9 +4,10 @@
 package com.minerylehome.jooq.generated;
 
 
-import com.minerylehome.jooq.generated.tables.User;
-import com.minerylehome.jooq.generated.tables.UserSession;
-import com.minerylehome.jooq.generated.tables.UserSessionActivity;
+import com.minerylehome.jooq.generated.tables.Account;
+import com.minerylehome.jooq.generated.tables.AccountSession;
+import com.minerylehome.jooq.generated.tables.AccountSessionActivity;
+import com.minerylehome.jooq.generated.tables.Navigation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,17 +34,22 @@ public class Public extends SchemaImpl {
     /**
      * The table <code>public.account</code>.
      */
-    public final User USER = User.USER;
+    public final Account ACCOUNT = Account.ACCOUNT;
 
     /**
      * The table <code>public.account_session</code>.
      */
-    public final UserSession USER_SESSION = UserSession.USER_SESSION;
+    public final AccountSession ACCOUNT_SESSION = AccountSession.ACCOUNT_SESSION;
 
     /**
      * The table <code>public.account_session_activity</code>.
      */
-    public final UserSessionActivity USER_SESSION_ACTIVITY = UserSessionActivity.USER_SESSION_ACTIVITY;
+    public final AccountSessionActivity ACCOUNT_SESSION_ACTIVITY = AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY;
+
+    /**
+     * The table <code>public.navigation</code>.
+     */
+    public final Navigation NAVIGATION = Navigation.NAVIGATION;
 
     /**
      * No further instances allowed
@@ -61,9 +67,10 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            User.USER,
-            UserSession.USER_SESSION,
-            UserSessionActivity.USER_SESSION_ACTIVITY
+            Account.ACCOUNT,
+            AccountSession.ACCOUNT_SESSION,
+            AccountSessionActivity.ACCOUNT_SESSION_ACTIVITY,
+            Navigation.NAVIGATION
         );
     }
 }
