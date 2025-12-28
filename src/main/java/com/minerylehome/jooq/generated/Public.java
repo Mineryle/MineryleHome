@@ -31,17 +31,17 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
-     * The table <code>public.users</code>.
+     * The table <code>public.account</code>.
      */
     public final User USER = User.USER;
 
     /**
-     * The table <code>public.users_session</code>.
+     * The table <code>public.account_session</code>.
      */
     public final UserSession USER_SESSION = UserSession.USER_SESSION;
 
     /**
-     * The table <code>public.users_session_activity</code>.
+     * The table <code>public.account_session_activity</code>.
      */
     public final UserSessionActivity USER_SESSION_ACTIVITY = UserSessionActivity.USER_SESSION_ACTIVITY;
 

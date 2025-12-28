@@ -19,7 +19,7 @@ public class NavigationRepository {
     public List<NavigationRow> findNavigationForUser(long userId) {
         return dsl.select(
                         DSL.field("navigation_sid", Long.class),
-                        DSL.field("user_sid", Long.class),
+                        DSL.field("account_sid", Long.class),
                         DSL.field("parent_navigation_sid", Long.class),
                         DSL.field("navigation_key", String.class),
                         DSL.field("item_id", String.class),
@@ -36,14 +36,14 @@ public class NavigationRepository {
                         DSL.field("exact_match", Boolean.class),
                         DSL.field("sort_order", Integer.class))
                 .from(DSL.table(DSL.name("navigation")))
-                .where(DSL.field("user_sid").eq(userId))
+                .where(DSL.field("account_sid").eq(userId))
                 .fetch(this::mapRow);
     }
 
     private NavigationRow mapRow(Record record) {
         return new NavigationRow(
                 record.get(DSL.field("navigation_sid", Long.class)),
-                record.get(DSL.field("user_sid", Long.class)),
+                record.get(DSL.field("account_sid", Long.class)),
                 record.get(DSL.field("parent_navigation_sid", Long.class)),
                 record.get(DSL.field("navigation_key", String.class)),
                 record.get(DSL.field("item_id", String.class)),

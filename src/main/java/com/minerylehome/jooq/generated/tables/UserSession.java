@@ -49,7 +49,7 @@ public class UserSession extends TableImpl<UserSessionRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>public.users_session</code>
+     * The reference instance of <code>public.account_session</code>
      */
     public static final UserSession USER_SESSION = new UserSession();
 
@@ -62,32 +62,32 @@ public class UserSession extends TableImpl<UserSessionRecord> {
     }
 
     /**
-     * The column <code>public.users_session.users_session_sid</code>.
+     * The column <code>public.account_session.account_session_sid</code>.
      */
-    public final TableField<UserSessionRecord, Long> USER_SESSION_SID = createField(DSL.name("users_session_sid"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserSessionRecord, Long> USER_SESSION_SID = createField(DSL.name("account_session_sid"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.users_session.user_sid</code>.
+     * The column <code>public.account_session.account_sid</code>.
      */
-    public final TableField<UserSessionRecord, Long> USER_SID = createField(DSL.name("user_sid"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UserSessionRecord, Long> USER_SID = createField(DSL.name("account_sid"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>public.users_session.session_id</code>.
+     * The column <code>public.account_session.session_id</code>.
      */
     public final TableField<UserSessionRecord, String> SESSION_ID = createField(DSL.name("session_id"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.users_session.created_at</code>.
+     * The column <code>public.account_session.created_at</code>.
      */
     public final TableField<UserSessionRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
     /**
-     * The column <code>public.users_session.last_activity_at</code>.
+     * The column <code>public.account_session.last_activity_at</code>.
      */
     public final TableField<UserSessionRecord, OffsetDateTime> LAST_ACTIVITY_AT = createField(DSL.name("last_activity_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
 
     /**
-     * The column <code>public.users_session.ended_at</code>.
+     * The column <code>public.account_session.ended_at</code>.
      */
     public final TableField<UserSessionRecord, OffsetDateTime> ENDED_AT = createField(DSL.name("ended_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "");
 
@@ -100,24 +100,24 @@ public class UserSession extends TableImpl<UserSessionRecord> {
     }
 
     /**
-     * Create an aliased <code>public.users_session</code> table reference
+     * Create an aliased <code>public.account_session</code> table reference
      */
     public UserSession(String alias) {
         this(DSL.name(alias), USER_SESSION);
     }
 
     /**
-     * Create an aliased <code>public.users_session</code> table reference
+     * Create an aliased <code>public.account_session</code> table reference
      */
     public UserSession(Name alias) {
         this(alias, USER_SESSION);
     }
 
     /**
-     * Create a <code>public.users_session</code> table reference
+     * Create a <code>public.account_session</code> table reference
      */
     public UserSession() {
-        this(DSL.name("users_session"), null);
+        this(DSL.name("account_session"), null);
     }
 
     public <O extends Record> UserSession(Table<O> path, ForeignKey<O, UserSessionRecord> childPath, InverseForeignKey<O, UserSessionRecord> parentPath) {
@@ -186,7 +186,7 @@ public class UserSession extends TableImpl<UserSessionRecord> {
     private transient UserPath _user;
 
     /**
-     * Get the implicit join path to the <code>public.users</code> table.
+     * Get the implicit join path to the <code>public.account</code> table.
      */
     public UserPath user() {
         if (_user == null)
@@ -199,7 +199,7 @@ public class UserSession extends TableImpl<UserSessionRecord> {
 
     /**
      * Get the implicit to-many join path to the
-     * <code>public.users_session_activity</code> table
+     * <code>public.account_session_activity</code> table
      */
     public UserSessionActivityPath userSessionActivity() {
         if (_userSessionActivity == null)

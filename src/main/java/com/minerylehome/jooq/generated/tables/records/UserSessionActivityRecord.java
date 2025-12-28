@@ -22,7 +22,7 @@ public class UserSessionActivityRecord extends UpdatableRecordImpl<UserSessionAc
 
     /**
      * Setter for
-     * <code>public.users_session_activity.users_session_activity_sid</code>.
+     * <code>public.account_session_activity.account_session_activity_sid</code>.
      */
     public void setUserSessionActivitySid(Long value) {
         set(0, value);
@@ -30,77 +30,77 @@ public class UserSessionActivityRecord extends UpdatableRecordImpl<UserSessionAc
 
     /**
      * Getter for
-     * <code>public.users_session_activity.users_session_activity_sid</code>.
+     * <code>public.account_session_activity.account_session_activity_sid</code>.
      */
     public Long getUserSessionActivitySid() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>public.users_session_activity.users_session_sid</code>.
+     * Setter for <code>public.account_session_activity.account_session_sid</code>.
      */
     public void setUserSessionSid(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.users_session_activity.users_session_sid</code>.
+     * Getter for <code>public.account_session_activity.account_session_sid</code>.
      */
     public Long getUserSessionSid() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>public.users_session_activity.request_method</code>.
+     * Setter for <code>public.account_session_activity.request_method</code>.
      */
     public void setRequestMethod(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.users_session_activity.request_method</code>.
+     * Getter for <code>public.account_session_activity.request_method</code>.
      */
     public String getRequestMethod() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>public.users_session_activity.request_path</code>.
+     * Setter for <code>public.account_session_activity.request_path</code>.
      */
     public void setRequestPath(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>public.users_session_activity.request_path</code>.
+     * Getter for <code>public.account_session_activity.request_path</code>.
      */
     public String getRequestPath() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>public.users_session_activity.response_status</code>.
+     * Setter for <code>public.account_session_activity.response_status</code>.
      */
     public void setResponseStatus(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>public.users_session_activity.response_status</code>.
+     * Getter for <code>public.account_session_activity.response_status</code>.
      */
     public Integer getResponseStatus() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>public.users_session_activity.created_at</code>.
+     * Setter for <code>public.account_session_activity.created_at</code>.
      */
     public void setCreatedAt(OffsetDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>public.users_session_activity.created_at</code>.
+     * Getter for <code>public.account_session_activity.created_at</code>.
      */
     public OffsetDateTime getCreatedAt() {
         return (OffsetDateTime) get(5);

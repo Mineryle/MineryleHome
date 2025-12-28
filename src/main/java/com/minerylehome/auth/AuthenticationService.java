@@ -23,13 +23,13 @@ public class AuthenticationService {
     public Optional<UserRecord> findUserByEmail(String email) {
         System.out.println("Auth lookup for email=" + email);
         Record record = dsl.select(
-                        DSL.field("user_sid", Long.class),
+                        DSL.field("account_sid", Long.class),
                         DSL.field("email", String.class),
                         DSL.field("password_hash", String.class),
                         DSL.field("name", String.class),
                         DSL.field("avatar", String.class),
                         DSL.field("status", String.class))
-                .from(DSL.table(DSL.name("users")))
+                .from(DSL.table(DSL.name("account")))
                 .where(DSL.field("email").eq(email))
                 .fetchOne();
         if (record == null) {
@@ -38,7 +38,7 @@ public class AuthenticationService {
         }
         System.out.println("Auth lookup success for email=" + email);
         return Optional.of(new UserRecord(
-                record.get(DSL.field("user_sid", Long.class)),
+                record.get(DSL.field("account_sid", Long.class)),
                 record.get(DSL.field("email", String.class)),
                 record.get(DSL.field("password_hash", String.class)),
                 record.get(DSL.field("name", String.class)),
@@ -55,26 +55,26 @@ public class AuthenticationService {
     }
 
     public long createSession(long userId, String sessionId) {
-        return dsl.insertInto(DSL.table("users_session"))
-                .columns(DSL.field("user_sid"), DSL.field("session_id"))
+        return dsl.insertInto(DSL.table("account_session"))
+                .columns(DSL.field("account_sid"), DSL.field("session_id"))
                 .values(userId, sessionId)
-                .returningResult(DSL.field("users_session_sid", Long.class))
+                .returningResult(DSL.field("account_session_sid", Long.class))
                 .fetchOne()
                 .value1();
     }
 
     public void recordActivity(long userSessionId, String method, String path, int status) {
-        dsl.insertInto(DSL.table("users_session_activity"))
+        dsl.insertInto(DSL.table("account_session_activity"))
                 .columns(
-                        DSL.field("users_session_sid"),
+                        DSL.field("account_session_sid"),
                         DSL.field("request_method"),
                         DSL.field("request_path"),
                         DSL.field("response_status"))
                 .values(userSessionId, method, path, status)
                 .execute();
-        dsl.update(DSL.table("users_session"))
+        dsl.update(DSL.table("account_session"))
                 .set(DSL.field("last_activity_at"), DSL.currentTimestamp())
-                .where(DSL.field("users_session_sid").eq(userSessionId))
+                .where(DSL.field("account_session_sid").eq(userSessionId))
                 .execute();
     }
 

@@ -21,84 +21,84 @@ public class UserSessionRecord extends UpdatableRecordImpl<UserSessionRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>public.users_session.users_session_sid</code>.
+     * Setter for <code>public.account_session.account_session_sid</code>.
      */
     public void setUserSessionSid(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>public.users_session.users_session_sid</code>.
+     * Getter for <code>public.account_session.account_session_sid</code>.
      */
     public Long getUserSessionSid() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>public.users_session.user_sid</code>.
+     * Setter for <code>public.account_session.account_sid</code>.
      */
     public void setUserSid(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.users_session.user_sid</code>.
+     * Getter for <code>public.account_session.account_sid</code>.
      */
     public Long getUserSid() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>public.users_session.session_id</code>.
+     * Setter for <code>public.account_session.session_id</code>.
      */
     public void setSessionId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.users_session.session_id</code>.
+     * Getter for <code>public.account_session.session_id</code>.
      */
     public String getSessionId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>public.users_session.created_at</code>.
+     * Setter for <code>public.account_session.created_at</code>.
      */
     public void setCreatedAt(OffsetDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>public.users_session.created_at</code>.
+     * Getter for <code>public.account_session.created_at</code>.
      */
     public OffsetDateTime getCreatedAt() {
         return (OffsetDateTime) get(3);
     }
 
     /**
-     * Setter for <code>public.users_session.last_activity_at</code>.
+     * Setter for <code>public.account_session.last_activity_at</code>.
      */
     public void setLastActivityAt(OffsetDateTime value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>public.users_session.last_activity_at</code>.
+     * Getter for <code>public.account_session.last_activity_at</code>.
      */
     public OffsetDateTime getLastActivityAt() {
         return (OffsetDateTime) get(4);
     }
 
     /**
-     * Setter for <code>public.users_session.ended_at</code>.
+     * Setter for <code>public.account_session.ended_at</code>.
      */
     public void setEndedAt(OffsetDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>public.users_session.ended_at</code>.
+     * Getter for <code>public.account_session.ended_at</code>.
      */
     public OffsetDateTime getEndedAt() {
         return (OffsetDateTime) get(5);

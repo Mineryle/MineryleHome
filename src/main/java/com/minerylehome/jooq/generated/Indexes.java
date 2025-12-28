@@ -23,7 +23,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX_USER_SESSION_ACTIVITY_CREATED_AT = Internal.createIndex(DSL.name("idx_users_session_activity_created_at"), UserSessionActivity.USER_SESSION_ACTIVITY, new OrderField[] { UserSessionActivity.USER_SESSION_ACTIVITY.CREATED_AT }, false);
-    public static final Index IDX_USER_SESSION_ACTIVITY_SESSION_SID = Internal.createIndex(DSL.name("idx_users_session_activity_session_sid"), UserSessionActivity.USER_SESSION_ACTIVITY, new OrderField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_SID }, false);
-    public static final Index IDX_USER_SESSION_USER_SID = Internal.createIndex(DSL.name("idx_users_session_user_sid"), UserSession.USER_SESSION, new OrderField[] { UserSession.USER_SESSION.USER_SID }, false);
+    public static final Index IDX_USER_SESSION_ACTIVITY_CREATED_AT = Internal.createIndex(DSL.name("idx_account_session_activity_created_at"), UserSessionActivity.USER_SESSION_ACTIVITY, new OrderField[] { UserSessionActivity.USER_SESSION_ACTIVITY.CREATED_AT }, false);
+    public static final Index IDX_USER_SESSION_ACTIVITY_SESSION_SID = Internal.createIndex(DSL.name("idx_account_session_activity_session_sid"), UserSessionActivity.USER_SESSION_ACTIVITY, new OrderField[] { UserSessionActivity.USER_SESSION_ACTIVITY.USER_SESSION_SID }, false);
+    public static final Index IDX_USER_SESSION_USER_SID = Internal.createIndex(DSL.name("idx_account_session_account_sid"), UserSession.USER_SESSION, new OrderField[] { UserSession.USER_SESSION.USER_SID }, false);
 }

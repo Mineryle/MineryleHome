@@ -1,13 +1,13 @@
-DELETE FROM users_session_activity;
-DELETE FROM users_session;
+DELETE FROM account_session_activity;
+DELETE FROM account_session;
 DELETE FROM navigation;
-DELETE FROM users;
+DELETE FROM account;
 
-INSERT INTO users (user_sid, email, password_hash, name, avatar, status) OVERRIDING SYSTEM VALUE
+INSERT INTO account (account_sid, email, password_hash, name, avatar, status) OVERRIDING SYSTEM VALUE
 VALUES
     (1, 'evan.g.coyle@gmail.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'Evan Coyle', 'images/avatars/male-04.jpg', 'online');
 
-INSERT INTO navigation (navigation_sid, user_sid, parent_navigation_sid, navigation_key, item_id, title, subtitle, type, icon, link, tooltip, badge_title, badge_classes, active, disabled, exact_match, sort_order) OVERRIDING SYSTEM VALUE
+INSERT INTO navigation (navigation_sid, account_sid, parent_navigation_sid, navigation_key, item_id, title, subtitle, type, icon, link, tooltip, badge_title, badge_classes, active, disabled, exact_match, sort_order) OVERRIDING SYSTEM VALUE
 VALUES
     (1, 1, NULL, 'default', 'dashboards', 'Dashboards', 'Unique dashboard designs', 'group', 'heroicons_outline:home', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
     (2, 1, 1, 'default', 'dashboards.project', 'Project', NULL, 'basic', 'heroicons_outline:clipboard-document-check', '/dashboards/project', NULL, NULL, NULL, NULL, NULL, NULL, 1),
