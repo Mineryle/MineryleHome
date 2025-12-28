@@ -366,13 +366,13 @@
                                     </div>
                                     <div class="mt-3 sm:ml-2 sm:mt-0">
                                         <mat-button-toggle-group
-                                            value="this-week"
+                                            value="thisWeek"
                                             #githubIssuesWeekSelector="matButtonToggleGroup"
                                         >
-                                            <mat-button-toggle value="last-week"
+                                            <mat-button-toggle value="lastWeek"
                                                 >Last Week</mat-button-toggle
                                             >
-                                            <mat-button-toggle value="this-week"
+                                            <mat-button-toggle value="thisWeek"
                                                 >This Week</mat-button-toggle
                                             >
                                         </mat-button-toggle-group>
@@ -452,7 +452,7 @@
                                                             ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]?.['new-issues'] ?? '—'
+                                                        ]?.newIssues ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -473,7 +473,7 @@
                                                             ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]?.['closed-issues'] ?? '—'
+                                                        ]?.closedIssues ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -494,7 +494,7 @@
                                                             ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]?.['fixed'] ?? '—'
+                                                        ]?.fixed ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -515,7 +515,7 @@
                                                             ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]?.['wont-fix'] ?? '—'
+                                                        ]?.wontFix ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -536,7 +536,7 @@
                                                             ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]?.['re-opened'] ?? '—'
+                                                        ]?.reOpened ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -557,7 +557,7 @@
                                                             ?.overview?.[
                                                             githubIssuesWeekSelector
                                                                 .value
-                                                        ]?.['needs-triage'] ?? '—'
+                                                        ]?.needsTriage ?? '—'
                                                     }}
                                                 </div>
                                                 <div
@@ -584,13 +584,13 @@
                                     </div>
                                     <div class="mt-3 sm:ml-2 sm:mt-0">
                                         <mat-button-toggle-group
-                                            value="this-week"
+                                            value="thisWeek"
                                             #taskDistributionWeekSelector="matButtonToggleGroup"
                                         >
-                                            <mat-button-toggle value="last-week"
+                                            <mat-button-toggle value="lastWeek"
                                                 >Last Week</mat-button-toggle
                                             >
-                                            <mat-button-toggle value="this-week"
+                                            <mat-button-toggle value="thisWeek"
                                                 >This Week</mat-button-toggle
                                             >
                                         </mat-button-toggle-group>

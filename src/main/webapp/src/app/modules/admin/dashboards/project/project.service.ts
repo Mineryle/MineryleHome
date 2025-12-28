@@ -24,22 +24,22 @@ export interface GithubIssuesData {
 }
 
 export interface GithubIssuesOverview {
-    'this-week': GithubIssuesBreakdown;
-    'last-week': GithubIssuesBreakdown;
+    thisWeek: GithubIssuesBreakdown;
+    lastWeek: GithubIssuesBreakdown;
 }
 
 export interface GithubIssuesBreakdown {
-    'new-issues': number;
-    'closed-issues': number;
+    newIssues: number;
+    closedIssues: number;
     fixed: number;
-    'wont-fix': number;
-    're-opened': number;
-    'needs-triage': number;
+    wontFix: number;
+    reOpened: number;
+    needsTriage: number;
 }
 
 export interface GithubIssuesSeries {
-    'this-week': GithubIssuesSeriesEntry[];
-    'last-week': GithubIssuesSeriesEntry[];
+    thisWeek: GithubIssuesSeriesEntry[];
+    lastWeek: GithubIssuesSeriesEntry[];
 }
 
 export interface GithubIssuesSeriesEntry {
@@ -55,8 +55,8 @@ export interface TaskDistributionData {
 }
 
 export interface TaskDistributionOverview {
-    'this-week': TaskDistributionTotals;
-    'last-week': TaskDistributionTotals;
+    thisWeek: TaskDistributionTotals;
+    lastWeek: TaskDistributionTotals;
 }
 
 export interface TaskDistributionTotals {
@@ -65,8 +65,8 @@ export interface TaskDistributionTotals {
 }
 
 export interface TaskDistributionSeries {
-    'this-week': number[];
-    'last-week': number[];
+    thisWeek: number[];
+    lastWeek: number[];
 }
 
 export interface ScheduleData {
