@@ -33,8 +33,7 @@ public class CryptoDashboardRepository {
                         DSL.field(DSL.name("crypto_price", "market_cap"), Long.class),
                         DSL.field(DSL.name("crypto_price", "volume"), Long.class),
                         DSL.field(DSL.name("crypto_price", "supply"), Long.class),
-                        DSL.field(DSL.name("crypto_price", "all_time_high"), BigDecimal.class),
-                        DSL.field(DSL.name("crypto_price", "price_series"), String.class))
+                        DSL.field(DSL.name("crypto_price", "all_time_high"), BigDecimal.class))
                 .from(cryptoPrice)
                 .join(baseTicker)
                 .on(DSL.field(DSL.name("crypto_price", "base_ticker_sid"))
@@ -45,6 +44,8 @@ public class CryptoDashboardRepository {
                 .where(DSL.field(DSL.name("crypto_price", "account_sid")).eq(accountSid))
                 .and(DSL.field(DSL.name("base_ticker", "symbol")).eq("BTC"))
                 .and(DSL.field(DSL.name("quote_ticker", "symbol")).eq("USD"))
+                .orderBy(DSL.field(DSL.name("crypto_price", "price_at")).desc())
+                .limit(1)
                 .fetchOne();
 
         Record pricesRecord = dsl.select(
@@ -75,9 +76,37 @@ public class CryptoDashboardRepository {
             return Optional.empty();
         }
 
-        JsonElement priceSeries = gson.fromJson(
-                btcRecord.get(DSL.field("price_series", String.class)),
-                JsonElement.class);
+        var priceSeriesRecords = dsl.select(
+                        DSL.field(DSL.name("crypto_price", "amount"), BigDecimal.class))
+                .from(cryptoPrice)
+                .join(baseTicker)
+                .on(DSL.field(DSL.name("crypto_price", "base_ticker_sid"))
+                        .eq(DSL.field(DSL.name("base_ticker", "crypto_ticker_sid"))))
+                .join(quoteTicker)
+                .on(DSL.field(DSL.name("crypto_price", "quote_ticker_sid"))
+                        .eq(DSL.field(DSL.name("quote_ticker", "crypto_ticker_sid"))))
+                .where(DSL.field(DSL.name("crypto_price", "account_sid")).eq(accountSid))
+                .and(DSL.field(DSL.name("base_ticker", "symbol")).eq("BTC"))
+                .and(DSL.field(DSL.name("quote_ticker", "symbol")).eq("USD"))
+                .orderBy(DSL.field(DSL.name("crypto_price", "price_at")).desc())
+                .limit(100)
+                .fetch();
+
+        com.google.gson.JsonArray priceData = new com.google.gson.JsonArray();
+        int totalPoints = priceSeriesRecords.size();
+        for (int i = totalPoints - 1; i >= 0; i--) {
+            Record record = priceSeriesRecords.get(i);
+            com.google.gson.JsonObject point = new com.google.gson.JsonObject();
+            point.addProperty("x", i - totalPoints + 1);
+            point.addProperty("y", record.get(DSL.field("amount", BigDecimal.class)));
+            priceData.add(point);
+        }
+        com.google.gson.JsonObject priceSeries = new com.google.gson.JsonObject();
+        priceSeries.addProperty("name", "Price");
+        priceSeries.add("data", priceData);
+        com.google.gson.JsonArray priceSeriesArray = new com.google.gson.JsonArray();
+        priceSeriesArray.add(priceSeries);
+        JsonElement priceSeriesElement = priceSeriesArray;
         JsonElement watchlistItems = gson.fromJson(
                 watchlistRecord.get(DSL.field("items", String.class)),
                 JsonElement.class);
@@ -91,7 +120,7 @@ public class CryptoDashboardRepository {
                 btcRecord.get(DSL.field("volume", Long.class)),
                 btcRecord.get(DSL.field("supply", Long.class)),
                 btcRecord.get(DSL.field("all_time_high", BigDecimal.class)),
-                new CryptoDashboardController.PriceData(priceSeries));
+                new CryptoDashboardController.PriceData(priceSeriesElement));
 
         CryptoDashboardController.PricesData prices = new CryptoDashboardController.PricesData(
                 pricesRecord.get(DSL.field("btc", BigDecimal.class)),

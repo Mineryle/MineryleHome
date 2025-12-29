@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS crypto_price (
     account_sid BIGINT NOT NULL REFERENCES account(account_sid) ON DELETE CASCADE,
     base_ticker_sid BIGINT NOT NULL REFERENCES crypto_ticker(crypto_ticker_sid) ON DELETE CASCADE,
     quote_ticker_sid BIGINT NOT NULL REFERENCES crypto_ticker(crypto_ticker_sid) ON DELETE CASCADE,
+    price_at TIMESTAMPTZ NOT NULL,
     amount NUMERIC(18, 8) NOT NULL,
     trend_dir TEXT NOT NULL,
     trend_amount NUMERIC(10, 4) NOT NULL,
@@ -136,7 +137,6 @@ CREATE TABLE IF NOT EXISTS crypto_price (
     volume BIGINT NOT NULL,
     supply BIGINT NOT NULL,
     all_time_high NUMERIC(18, 8) NOT NULL,
-    price_series JSONB NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
