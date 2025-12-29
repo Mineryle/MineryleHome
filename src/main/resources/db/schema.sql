@@ -116,9 +116,19 @@ CREATE TABLE IF NOT EXISTS schedule_component (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS crypto_btc_component (
-    crypto_btc_component_sid BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS crypto_ticker (
+    crypto_ticker_sid BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    symbol TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS crypto_price (
+    crypto_price_sid BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     account_sid BIGINT NOT NULL REFERENCES account(account_sid) ON DELETE CASCADE,
+    base_ticker_sid BIGINT NOT NULL REFERENCES crypto_ticker(crypto_ticker_sid) ON DELETE CASCADE,
+    quote_ticker_sid BIGINT NOT NULL REFERENCES crypto_ticker(crypto_ticker_sid) ON DELETE CASCADE,
     amount NUMERIC(18, 8) NOT NULL,
     trend_dir TEXT NOT NULL,
     trend_amount NUMERIC(10, 4) NOT NULL,
@@ -167,7 +177,10 @@ CREATE INDEX IF NOT EXISTS idx_account_session_activity_created_at ON account_se
 CREATE INDEX IF NOT EXISTS idx_navigation_account_sid ON navigation(account_sid);
 CREATE INDEX IF NOT EXISTS idx_navigation_parent_sid ON navigation(parent_navigation_sid);
 CREATE INDEX IF NOT EXISTS idx_navigation_account_key ON navigation(account_sid, navigation_key);
-CREATE INDEX IF NOT EXISTS idx_crypto_btc_component_account_sid ON crypto_btc_component(account_sid);
+CREATE INDEX IF NOT EXISTS idx_crypto_price_account_sid ON crypto_price(account_sid);
+CREATE INDEX IF NOT EXISTS idx_crypto_price_base_ticker_sid ON crypto_price(base_ticker_sid);
+CREATE INDEX IF NOT EXISTS idx_crypto_price_quote_ticker_sid ON crypto_price(quote_ticker_sid);
+CREATE INDEX IF NOT EXISTS idx_crypto_ticker_symbol ON crypto_ticker(symbol);
 CREATE INDEX IF NOT EXISTS idx_crypto_prices_component_account_sid ON crypto_prices_component(account_sid);
 CREATE INDEX IF NOT EXISTS idx_crypto_wallets_component_account_sid ON crypto_wallets_component(account_sid);
 CREATE INDEX IF NOT EXISTS idx_crypto_watchlist_component_account_sid ON crypto_watchlist_component(account_sid);

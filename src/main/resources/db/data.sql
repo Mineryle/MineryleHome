@@ -1,7 +1,8 @@
 DELETE FROM crypto_watchlist_component;
 DELETE FROM crypto_wallets_component;
 DELETE FROM crypto_prices_component;
-DELETE FROM crypto_btc_component;
+DELETE FROM crypto_price;
+DELETE FROM crypto_ticker;
 DELETE FROM schedule_component;
 DELETE FROM task_distribution_component;
 DELETE FROM github_metrics_component;
@@ -135,9 +136,19 @@ VALUES
         ]'::jsonb
     );
 
-INSERT INTO crypto_btc_component (
-    crypto_btc_component_sid,
+INSERT INTO crypto_ticker (crypto_ticker_sid, symbol, name) OVERRIDING SYSTEM VALUE
+VALUES
+    (1, 'BTC', 'Bitcoin'),
+    (2, 'ETH', 'Ethereum'),
+    (3, 'BCH', 'Bitcoin Cash'),
+    (4, 'XRP', 'XRP'),
+    (5, 'USD', 'US Dollar');
+
+INSERT INTO crypto_price (
+    crypto_price_sid,
     account_sid,
+    base_ticker_sid,
+    quote_ticker_sid,
     amount,
     trend_dir,
     trend_amount,
@@ -151,6 +162,8 @@ VALUES
     (
         1,
         1,
+        1,
+        5,
         8878.48,
         'up',
         0.17,

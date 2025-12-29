@@ -22,17 +22,29 @@ public class CryptoDashboardRepository {
     }
 
     public Optional<CryptoDashboardController.CryptoDashboardData> findDashboard(long accountSid) {
+        var cryptoPrice = DSL.table(DSL.name("crypto_price"));
+        var baseTicker = DSL.table(DSL.name("crypto_ticker")).as("base_ticker");
+        var quoteTicker = DSL.table(DSL.name("crypto_ticker")).as("quote_ticker");
+
         Record btcRecord = dsl.select(
-                        DSL.field("amount", BigDecimal.class),
-                        DSL.field("trend_dir", String.class),
-                        DSL.field("trend_amount", BigDecimal.class),
-                        DSL.field("market_cap", Long.class),
-                        DSL.field("volume", Long.class),
-                        DSL.field("supply", Long.class),
-                        DSL.field("all_time_high", BigDecimal.class),
-                        DSL.field("price_series", String.class))
-                .from(DSL.table(DSL.name("crypto_btc_component")))
-                .where(DSL.field("account_sid").eq(accountSid))
+                        DSL.field(DSL.name("crypto_price", "amount"), BigDecimal.class),
+                        DSL.field(DSL.name("crypto_price", "trend_dir"), String.class),
+                        DSL.field(DSL.name("crypto_price", "trend_amount"), BigDecimal.class),
+                        DSL.field(DSL.name("crypto_price", "market_cap"), Long.class),
+                        DSL.field(DSL.name("crypto_price", "volume"), Long.class),
+                        DSL.field(DSL.name("crypto_price", "supply"), Long.class),
+                        DSL.field(DSL.name("crypto_price", "all_time_high"), BigDecimal.class),
+                        DSL.field(DSL.name("crypto_price", "price_series"), String.class))
+                .from(cryptoPrice)
+                .join(baseTicker)
+                .on(DSL.field(DSL.name("crypto_price", "base_ticker_sid"))
+                        .eq(DSL.field(DSL.name("base_ticker", "crypto_ticker_sid"))))
+                .join(quoteTicker)
+                .on(DSL.field(DSL.name("crypto_price", "quote_ticker_sid"))
+                        .eq(DSL.field(DSL.name("quote_ticker", "crypto_ticker_sid"))))
+                .where(DSL.field(DSL.name("crypto_price", "account_sid")).eq(accountSid))
+                .and(DSL.field(DSL.name("base_ticker", "symbol")).eq("BTC"))
+                .and(DSL.field(DSL.name("quote_ticker", "symbol")).eq("USD"))
                 .fetchOne();
 
         Record pricesRecord = dsl.select(
