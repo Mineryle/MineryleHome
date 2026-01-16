@@ -1,3 +1,8 @@
+DELETE FROM crypto_watchlist_component;
+DELETE FROM crypto_wallets_component;
+DELETE FROM crypto_prices_component;
+DELETE FROM crypto_price;
+DELETE FROM crypto_ticker;
 DELETE FROM schedule_component;
 DELETE FROM task_distribution_component;
 DELETE FROM github_metrics_component;
@@ -128,6 +133,278 @@ VALUES
             {"title":"Live Stream","time":"05:30 PM","location":null},
             {"title":"Release Party","time":"07:30 PM","location":"CEO''s house"},
             {"title":"CEO''s Private Party","time":"09:30 PM","location":"CEO''s Penthouse"}
+        ]'::jsonb
+    );
+
+INSERT INTO crypto_ticker (crypto_ticker_sid, symbol, name) OVERRIDING SYSTEM VALUE
+VALUES
+    (1, 'BTC', 'Bitcoin'),
+    (2, 'ETH', 'Ethereum'),
+    (3, 'BCH', 'Bitcoin Cash'),
+    (4, 'XRP', 'XRP'),
+    (5, 'USD', 'US Dollar');
+
+INSERT INTO crypto_price (
+    crypto_price_sid,
+    account_sid,
+    base_ticker_sid,
+    quote_ticker_sid,
+    price_at,
+    amount,
+    trend_dir,
+    trend_amount,
+    market_cap,
+    volume,
+    supply,
+    all_time_high
+) OVERRIDING SYSTEM VALUE
+SELECT
+    series + 1,
+    1,
+    1,
+    5,
+    NOW() - (INTERVAL '15 seconds' * (99 - series)),
+    6500.00
+        + (series * 2.35)
+        + (CASE WHEN series % 5 = 0 THEN 12.5 ELSE 0 END),
+    'up',
+    0.17,
+    148752956966,
+    22903438381,
+    18168448,
+    19891.0
+FROM generate_series(0, 99) AS series;
+
+INSERT INTO crypto_prices_component (
+    crypto_prices_component_sid,
+    account_sid,
+    btc,
+    eth,
+    bch,
+    xrp
+) OVERRIDING SYSTEM VALUE
+VALUES
+    (1, 1, 8878.48, 170.46, 359.93, 0.23512);
+
+INSERT INTO crypto_wallets_component (
+    crypto_wallets_component_sid,
+    account_sid,
+    btc,
+    eth,
+    bch,
+    xrp
+) OVERRIDING SYSTEM VALUE
+VALUES
+    (1, 1, 24.97311243, 126.3212, 78.454412, 11278.771123);
+
+INSERT INTO crypto_watchlist_component (
+    crypto_watchlist_component_sid,
+    account_sid,
+    items
+) OVERRIDING SYSTEM VALUE
+VALUES
+    (
+        1,
+        1,
+        '[
+            {
+                "title": "Ethereum",
+                "iso": "ETH",
+                "amount": 170.46,
+                "trend": { "dir": "up", "amount": 2.35 },
+                "series": [
+                    {
+                        "name": "Price",
+                        "data": [
+                            { "x": "09:00", "y": 154.36 },
+                            { "x": "09:01", "y": 154.36 },
+                            { "x": "09:02", "y": 146.94 },
+                            { "x": "09:03", "y": 146.96 },
+                            { "x": "09:04", "y": 146.11 },
+                            { "x": "09:05", "y": 150.26 },
+                            { "x": "09:06", "y": 146.11 },
+                            { "x": "09:07", "y": 150.79 },
+                            { "x": "09:08", "y": 145.36 },
+                            { "x": "09:09", "y": 141.06 },
+                            { "x": "09:10", "y": 140.1 },
+                            { "x": "09:11", "y": 138.31 },
+                            { "x": "09:12", "y": 138.42 },
+                            { "x": "09:13", "y": 138.48 },
+                            { "x": "09:14", "y": 138.71 },
+                            { "x": "09:15", "y": 148.42 },
+                            { "x": "09:16", "y": 146.87 },
+                            { "x": "09:17", "y": 147.07 },
+                            { "x": "09:18", "y": 135.07 },
+                            { "x": "09:19", "y": 135.01 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Bitcoin Cash",
+                "iso": "BCH",
+                "amount": 359.93,
+                "trend": { "dir": "up", "amount": 9.94 },
+                "series": [
+                    {
+                        "name": "Price",
+                        "data": [
+                            { "x": "09:00", "y": 374.77 },
+                            { "x": "09:01", "y": 374.41 },
+                            { "x": "09:02", "y": 375.08 },
+                            { "x": "09:03", "y": 375.08 },
+                            { "x": "09:04", "y": 374.09 },
+                            { "x": "09:05", "y": 368.84 },
+                            { "x": "09:06", "y": 367.49 },
+                            { "x": "09:07", "y": 359.75 },
+                            { "x": "09:08", "y": 366.65 },
+                            { "x": "09:09", "y": 367.52 },
+                            { "x": "09:10", "y": 367.59 },
+                            { "x": "09:11", "y": 364.18 },
+                            { "x": "09:12", "y": 370.11 },
+                            { "x": "09:13", "y": 362.7 },
+                            { "x": "09:14", "y": 362.7 },
+                            { "x": "09:15", "y": 362.77 },
+                            { "x": "09:16", "y": 369.46 },
+                            { "x": "09:17", "y": 371.04 },
+                            { "x": "09:18", "y": 371.48 },
+                            { "x": "09:19", "y": 371.3 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "XRP",
+                "iso": "XRP",
+                "amount": 0.23512,
+                "trend": { "dir": "down", "amount": 0.35 },
+                "series": [
+                    {
+                        "name": "Price",
+                        "data": [
+                            { "x": "09:00", "y": 0.258 },
+                            { "x": "09:01", "y": 0.256 },
+                            { "x": "09:02", "y": 0.255 },
+                            { "x": "09:03", "y": 0.255 },
+                            { "x": "09:04", "y": 0.254 },
+                            { "x": "09:05", "y": 0.248 },
+                            { "x": "09:06", "y": 0.247 },
+                            { "x": "09:07", "y": 0.249 },
+                            { "x": "09:08", "y": 0.246 },
+                            { "x": "09:09", "y": 0.247 },
+                            { "x": "09:10", "y": 0.247 },
+                            { "x": "09:11", "y": 0.244 },
+                            { "x": "09:12", "y": 0.25 },
+                            { "x": "09:13", "y": 0.242 },
+                            { "x": "09:14", "y": 0.251 },
+                            { "x": "09:15", "y": 0.251 },
+                            { "x": "09:16", "y": 0.251 },
+                            { "x": "09:17", "y": 0.249 },
+                            { "x": "09:18", "y": 0.242 },
+                            { "x": "09:19", "y": 0.24 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Litecoin",
+                "iso": "LTC",
+                "amount": 60.15,
+                "trend": { "dir": "up", "amount": 0.99 },
+                "series": [
+                    {
+                        "name": "Price",
+                        "data": [
+                            { "x": "09:00", "y": 62.54 },
+                            { "x": "09:01", "y": 61.54 },
+                            { "x": "09:02", "y": 62.55 },
+                            { "x": "09:03", "y": 60.55 },
+                            { "x": "09:04", "y": 59.54 },
+                            { "x": "09:05", "y": 58.48 },
+                            { "x": "09:06", "y": 54.47 },
+                            { "x": "09:07", "y": 51.49 },
+                            { "x": "09:08", "y": 51.46 },
+                            { "x": "09:09", "y": 53.47 },
+                            { "x": "09:10", "y": 52.47 },
+                            { "x": "09:11", "y": 54.44 },
+                            { "x": "09:12", "y": 59.5 },
+                            { "x": "09:13", "y": 62.42 },
+                            { "x": "09:14", "y": 61.42 },
+                            { "x": "09:15", "y": 60.42 },
+                            { "x": "09:16", "y": 58.49 },
+                            { "x": "09:17", "y": 57.51 },
+                            { "x": "09:18", "y": 54.51 },
+                            { "x": "09:19", "y": 51.25 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Zcash",
+                "iso": "ZEC",
+                "amount": 58.41,
+                "trend": { "dir": "down", "amount": 8.79 },
+                "series": [
+                    {
+                        "name": "Price",
+                        "data": [
+                            { "x": "09:00", "y": 53.54 },
+                            { "x": "09:01", "y": 52.54 },
+                            { "x": "09:02", "y": 52.55 },
+                            { "x": "09:03", "y": 46.44 },
+                            { "x": "09:04", "y": 49.5 },
+                            { "x": "09:05", "y": 55.42 },
+                            { "x": "09:06", "y": 54.42 },
+                            { "x": "09:07", "y": 43.49 },
+                            { "x": "09:08", "y": 43.46 },
+                            { "x": "09:09", "y": 41.47 },
+                            { "x": "09:10", "y": 41.47 },
+                            { "x": "09:11", "y": 51.55 },
+                            { "x": "09:12", "y": 48.54 },
+                            { "x": "09:13", "y": 49.48 },
+                            { "x": "09:14", "y": 45.47 },
+                            { "x": "09:15", "y": 51.42 },
+                            { "x": "09:16", "y": 49.49 },
+                            { "x": "09:17", "y": 46.51 },
+                            { "x": "09:18", "y": 41.51 },
+                            { "x": "09:19", "y": 44.25 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Bitcoin Gold",
+                "iso": "BTG",
+                "amount": 12.23,
+                "trend": { "dir": "down", "amount": 4.42 },
+                "series": [
+                    {
+                        "name": "Price",
+                        "data": [
+                            { "x": "09:00", "y": 14.77 },
+                            { "x": "09:01", "y": 14.41 },
+                            { "x": "09:02", "y": 15.08 },
+                            { "x": "09:03", "y": 15.08 },
+                            { "x": "09:04", "y": 14.09 },
+                            { "x": "09:05", "y": 18.84 },
+                            { "x": "09:06", "y": 17.49 },
+                            { "x": "09:07", "y": 19.75 },
+                            { "x": "09:08", "y": 16.65 },
+                            { "x": "09:09", "y": 17.52 },
+                            { "x": "09:10", "y": 17.59 },
+                            { "x": "09:11", "y": 14.18 },
+                            { "x": "09:12", "y": 10.11 },
+                            { "x": "09:13", "y": 12.7 },
+                            { "x": "09:14", "y": 12.7 },
+                            { "x": "09:15", "y": 12.77 },
+                            { "x": "09:16", "y": 19.46 },
+                            { "x": "09:17", "y": 11.04 },
+                            { "x": "09:18", "y": 11.48 },
+                            { "x": "09:19", "y": 11.3 }
+                        ]
+                    }
+                ]
+            }
         ]'::jsonb
     );
 
